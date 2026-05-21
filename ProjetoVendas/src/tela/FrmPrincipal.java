@@ -33,6 +33,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuCadastro = new javax.swing.JMenu();
         jMenuItemFornecedor = new javax.swing.JMenuItem();
+        jMenuItemCliente = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuAjuda = new javax.swing.JMenu();
         jMenuItemSair = new javax.swing.JMenuItem();
@@ -59,6 +60,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
         jMenuCadastro.add(jMenuItemFornecedor);
+
+        jMenuItemCliente.setText("Cliente");
+        jMenuItemCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemClienteActionPerformed(evt);
+            }
+        });
+        jMenuCadastro.add(jMenuItemCliente);
 
         jMenuBar1.add(jMenuCadastro);
 
@@ -98,12 +107,20 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemSairActionPerformed
 
     private void jMenuItemFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemFornecedorActionPerformed
-        IfrFornecedor ifrCidade = new IfrFornecedor();
+        IfrFornecedor ifrFornecedor = new IfrFornecedor();
         
-        jDesktopPane1.add(ifrCidade);
+        jDesktopPane1.add(ifrFornecedor);
         
-        ifrCidade.setVisible(true);
+        ifrFornecedor.setVisible(true);
     }//GEN-LAST:event_jMenuItemFornecedorActionPerformed
+
+    private void jMenuItemClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemClienteActionPerformed
+        IfrCliente ifrCliente = new IfrCliente();
+        
+        jDesktopPane1.add(ifrCliente);
+        
+        ifrCliente.setVisible(true);
+    }//GEN-LAST:event_jMenuItemClienteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -147,6 +164,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuCadastro;
     private javax.swing.JMenuItem jMenuItemFornecedor;
+    private javax.swing.JMenuItem jMenuItemCliente;
     private javax.swing.JMenuItem jMenuItemSair;
     // End of variables declaration//GEN-END:variables
 }

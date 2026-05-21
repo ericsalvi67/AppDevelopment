@@ -40,7 +40,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableFornecedor = new javax.swing.JTable();
+        jTableCliente = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         tfdNome = new javax.swing.JTextField();
@@ -49,14 +49,14 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         tfdTelefone = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        tfdCnpj = new javax.swing.JTextField();
+        tfdCpf = new javax.swing.JTextField();
         jButtonGet = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jComboFornecedor = new javax.swing.JComboBox<>();
         tfdBusca = new javax.swing.JTextField();
         jButtonSearch = new javax.swing.JButton();
 
-        setTitle("Cadastro: Fornecedor");
+        setTitle("Cadastro: Cliente");
 
         jButtonClose.setText("Fechar");
         jButtonClose.addActionListener(new java.awt.event.ActionListener() {
@@ -72,12 +72,12 @@ public class IfrCliente extends javax.swing.JInternalFrame {
             }
         });
 
-        jTableFornecedor.setModel(new javax.swing.table.DefaultTableModel(
+        jTableCliente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Nome", "Email", "Telefone", "CNPJ"
+                "ID", "Nome", "Email", "Telefone", "CPF"
             }
         ) {
             Class[] types = new Class [] {
@@ -95,7 +95,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTableFornecedor);
+        jScrollPane1.setViewportView(jTableCliente);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -128,7 +128,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Telefone");
 
-        jLabel5.setText("CNPJ");
+        jLabel5.setText("CPF");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -262,29 +262,32 @@ public class IfrCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonCloseActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        Fornecedor f = new Fornecedor();
+        Cliente c = new Cliente();
         
         if (   tfdNome.getText().isEmpty() 
             || tfdEmail.getText().isEmpty() 
             || tfdTelefone.getText().isEmpty()
-            || tfdCnpj.getText().isEmpty()){
+            || tfdCpf.getText().isEmpty()){
             JOptionPane.showMessageDialog(this, "Não foi possível inserir os dados.");
             tfdNome.requestFocus();
             return;
         }
         
-        f.setNome(tfdNome.getText().toUpperCase());
-        f.setEmail(tfdEmail.getText().toUpperCase());
-        f.setTelefone(tfdTelefone.getText().toUpperCase());
-        f.setCnpj(tfdCnpj.getText().toUpperCase());
+        c.setNome(tfdNome.getText().toUpperCase());
+        c.setEmail(tfdEmail.getText().toUpperCase());
+        c.setTelefone(tfdTelefone.getText().toUpperCase());
+        c.setCpf(tfdCpf.getText().toUpperCase());
             
-        FornecedorDAO fornecedorDAO = new FornecedorDAO();
+        ClienteDAO clienteDAO = new ClienteDAO();
 
-        if (fornecedorDAO.salvar(f) == null) {
+        int id = clienteDAO.salvar(c);
+        if (id != -1) {
             tfdNome.setText("");
             tfdEmail.setText("");
             tfdTelefone.setText("");
-            tfdCnpj.setText("");
+            tfdCpf.setText("");
+
+            System.out.println("ID Cliente: " + id);
 
             JOptionPane.showMessageDialog(this, "Registro salvo com sucesso!");
 
@@ -296,28 +299,28 @@ public class IfrCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void jButtonGetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGetActionPerformed
-        ArrayList<Fornecedor> f = new ArrayList();
+        ArrayList<Cliente> f = new ArrayList();
 
-        f = new FornecedorDAO().consultarTodos();
+        f = new ClienteDAO().consultarTodos();
 
-        for (Fornecedor x : f) {
+        for (Cliente x : f) {
             System.out.println("Id: " + x.getId());
             System.out.println("Nome: " + x.getNome());
             System.out.println("Telefone: " + x.getTelefone());
-            System.out.println("CNPJ: " + x.getCnpj());
+            System.out.println("CPF: " + x.getCpf());
             System.out.println("");
         }
         
-        DefaultTableModel modelo = (DefaultTableModel) jTableFornecedor.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) jTableCliente.getModel();
         modelo.setRowCount(0);
 
-        for (Fornecedor x : f) {
+        for (Cliente x : f) {
             modelo.addRow(new Object[]{
                 x.getId(),
                 x.getNome(),
                 x.getEmail(),
                 x.getTelefone(),
-                x.getCnpj()
+                x.getCpf()
             });
         }
     }//GEN-LAST:event_jButtonGetActionPerformed
@@ -326,42 +329,42 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tfdNomeActionPerformed
 
-    private void jComboFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboFornecedorActionPerformed
+    private void jComboClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboClienteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboFornecedorActionPerformed
+    }//GEN-LAST:event_jComboClienteActionPerformed
 
     private void tfdBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdBuscaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfdBuscaActionPerformed
 
     private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchActionPerformed
-        ArrayList<Fornecedor> f = new ArrayList();
-        String criterio = jComboFornecedor.getSelectedItem().toString();
+        ArrayList<Cliente> c = new ArrayList();
+        String criterio = jComboCliente.getSelectedItem().toString();
         String valor = tfdBusca.getText();
         
         if(valor.isEmpty())
             return;
 
-        f = new FornecedorDAO().consultar(criterio.toLowerCase(), valor.toUpperCase());
+        c = new ClienteDAO().consultar(criterio.toLowerCase(), valor.toUpperCase());
 
-        for (Fornecedor x : f) {
+        for (Cliente x : c) {
             System.out.println("Id: " + x.getId());
             System.out.println("Nome: " + x.getNome());
             System.out.println("Telefone: " + x.getTelefone());
-            System.out.println("CNPJ: " + x.getCnpj());
+            System.out.println("CPF: " + x.getCpf());
             System.out.println("");
         }
         
-        DefaultTableModel modelo = (DefaultTableModel) jTableFornecedor.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) jTableCliente.getModel();
         modelo.setRowCount(0);
 
-        for (Fornecedor x : f) {
+        for (Cliente x : c) {
             modelo.addRow(new Object[]{
                 x.getId(),
                 x.getNome(),
                 x.getEmail(),
                 x.getTelefone(),
-                x.getCnpj()
+                x.getCpf()
             });
         }
     }//GEN-LAST:event_jButtonSearchActionPerformed
@@ -372,7 +375,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButtonClose;
     private javax.swing.JButton jButtonGet;
     private javax.swing.JButton jButtonSearch;
-    private javax.swing.JComboBox<String> jComboFornecedor;
+    private javax.swing.JComboBox<String> jComboCliente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -382,9 +385,9 @@ public class IfrCliente extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTableFornecedor;
+    private javax.swing.JTable jTableCliente;
     private javax.swing.JTextField tfdBusca;
-    private javax.swing.JTextField tfdCnpj;
+    private javax.swing.JTextField tfdCpf;
     private javax.swing.JTextField tfdEmail;
     private javax.swing.JTextField tfdNome;
     private javax.swing.JTextField tfdTelefone;

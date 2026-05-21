@@ -10,44 +10,95 @@ import java.util.ArrayList;
 public class ClienteDAO implements IDAOT<Cliente> {
     
     public static final String _select = 
-            "select id, "
-            + "nome, "
-            + "email, "
-            + "cpf, "
-            + "telefone "
-            + "from cliente ";
+        "select id, "
+        + "nome, "
+        + "email, "
+        + "cpf, "
+        + "telefone "
+        + "from cliente ";
+    
+    public static final String _insert = 
+        "insert into cliente "
+        + "(nome, email, telefone, cpf) "
+        + "values "
+        + "(?, ?, ?, ?)"
+        + "returning id";
+
+    public static final String _update =
+        "update cliente "
+        + "set nome = ?, "
+        + "email = ?, "
+        + "telefone = ?, "
+        + "cpf = ? "
+        + "where id = ?";
+    
+    public static final String _delete =
+        "delete from cliente "
+        + "where id = ?";
 
     @Override
     public String salvar(Cliente o) {
         try {
-            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
-            
-            String sql = 
-                    "insert into cliente values ("
-                    + "default, "
-                    + "'" + o.getNome() + "', "
-                    + "'" + o.getEmail() + "', "
-                    + "'" + o.getCpf() + "', "
-                    + "'" + o.getTelefone() + "', "
-                    + "default)";
-            
-            st.executeUpdate(sql);
-            return null;
-            
+            PreparedStatement pst = ConexaoBD.getInstance().getConnection().prepareStatement(_insert);
+
+            pst.setString(1, o.getNome());
+            pst.setString(2, o.getEmail());
+            pst.setString(3, o.getTelefone());
+            pst.setString(4, o.getCpf());
+
+            ResultSet rs = pst.executeQuery();
+            System.out.println("SQL executado!");
+
+            if (rs.next()) {
+            int idGerado = rs.getInt("id");
+            }
+
+            return idGerado;
+
         } catch (Exception e) {
-            System.out.println("Erro ao inserir Cidade: " + e);
+            System.out.println("Erro ao inserir CLIENTE: " + e);
             return e.toString();
         }
     }
 
     @Override
     public String atualizar(Cliente o) { 
-        throw new UnsupportedOperationException("Not supported yet."); 
+        try {
+            PreparedStatement pst = ConexaoBD.getInstance().getConnection().prepareStatement(_update);
+
+            pst.setString(1, o.getNome());
+            pst.setString(2, o.getEmail());
+            pst.setString(3, o.getTelefone());
+            pst.setString(4, o.getCpf());
+            pst.setInt(5, o.getId());
+
+            pst.executeUpdate();
+            System.out.println("SQL executado!");
+
+            return null;
+
+        } catch (Exception e) {
+            System.out.println("Erro ao atualizar CLIENTE: " + e);
+            return e.toString();
+        }
     }
     
     @Override
     public String excluir(int id) { 
-        throw new UnsupportedOperationException("Not supported yet."); 
+        try {
+            PreparedStatement pst = ConexaoBD.getInstance().getConnection().prepareStatement(_delete);
+
+            pst.setInt(1, id);
+
+            pst.executeUpdate();
+            System.out.println("SQL executado!");
+
+            return null;
+
+        } catch (Exception e) {
+            System.out.println("Erro ao excluir CLIENTE: " + e);
+            return e.toString();
+        }
     }
 
     @Override
@@ -57,6 +108,7 @@ public class ClienteDAO implements IDAOT<Cliente> {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             
             ResultSet rs = st.executeQuery(_select + "order by nome");
+            System.out.println("SQL executado!");
             
             while (rs.next()) {
                 Cliente c = new Cliente();
@@ -70,14 +122,38 @@ public class ClienteDAO implements IDAOT<Cliente> {
                 lista.add(c);
             }
         } catch (Exception e) {
-            System.out.println("Erro ao consultar CIDADES: " + e);
+            System.out.println("Erro ao consultar CLIENTES: " + e);
         }
         return lista;
     }
 
     @Override
     public ArrayList<Cliente> consultar(String criterio, String valor) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        ArrayList<Cliente> clientes = new ArrayList<>();
+
+        try {
+            Statement st = ConexaoBD.getInstance().getConnection().createStatement();
+
+            ResultSet rs = st.executeQuery(_select + " where " + criterio + " like '%" + valor + "%';");
+            System.out.println("SQL executado!");
+
+            while (rs.next()) {
+                Cliente c = new Cliente();
+
+                c.setId(rs.getInt("id"));
+                c.setNome(rs.getString("nome"));
+                c.setEmail(rs.getString("email"));
+                c.setTelefone(rs.getString("telefone"));
+                c.setCpf(rs.getString("cpf"));
+
+                clientes.add(c);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao consultar CLIENTES: " + e);
+        }
+
+        return clientes;
     }
 
     @Override
@@ -87,6 +163,7 @@ public class ClienteDAO implements IDAOT<Cliente> {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
             
             ResultSet rs = st.executeQuery(_select + " where id = " + id);
+            System.out.println("SQL executado!");
             
             if (rs.next()) {
                 c = new Cliente();
@@ -98,8 +175,9 @@ public class ClienteDAO implements IDAOT<Cliente> {
                 c.setTelefone(rs.getString("telefone"));
             }
         } catch (Exception e) {
-            System.out.println("Erro ao consultar CIDADE: " + e);
+            System.out.println("Erro ao consultar CLIENTE: " + e);
         }
+
         return c;
     }
 }

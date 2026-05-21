@@ -280,11 +280,14 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
             
         FornecedorDAO fornecedorDAO = new FornecedorDAO();
 
-        if (fornecedorDAO.salvar(f) == null) {
+        int id = fornecedorDAO.salvar(f);
+        if (id != -1) {
             tfdNome.setText("");
             tfdEmail.setText("");
             tfdTelefone.setText("");
             tfdCnpj.setText("");
+
+            System.out.println("ID Fornecedor: " + id);
 
             JOptionPane.showMessageDialog(this, "Registro salvo com sucesso!");
 
