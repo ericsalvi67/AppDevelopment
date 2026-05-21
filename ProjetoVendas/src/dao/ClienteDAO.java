@@ -3,6 +3,7 @@ package dao;
 import apoio.ConexaoBD;
 import apoio.IDAOT;
 import entidade.Cliente;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -38,6 +39,8 @@ public class ClienteDAO implements IDAOT<Cliente> {
 
     @Override
     public String salvar(Cliente o) {
+        int idGerado = -1;
+
         try {
             PreparedStatement pst = ConexaoBD.getInstance().getConnection().prepareStatement(_insert);
 
@@ -50,10 +53,10 @@ public class ClienteDAO implements IDAOT<Cliente> {
             System.out.println("SQL executado!");
 
             if (rs.next()) {
-            int idGerado = rs.getInt("id");
+                idGerado = rs.getInt("id");
             }
 
-            return idGerado;
+            return idGerado.toString();
 
         } catch (Exception e) {
             System.out.println("Erro ao inserir CLIENTE: " + e);

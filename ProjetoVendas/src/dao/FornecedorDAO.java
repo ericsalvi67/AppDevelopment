@@ -3,6 +3,7 @@ package dao;
 import apoio.ConexaoBD;
 import apoio.IDAOT;
 import entidade.Fornecedor;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -38,6 +39,8 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
     
     @Override
     public String salvar(Fornecedor o) {
+        int idGerado = -1;
+
         try {
 
             PreparedStatement pst = ConexaoBD.getInstance().getConnection().prepareStatement(_insert);
@@ -51,14 +54,14 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
             System.out.println("SQL executado!");
 
             if (rs.next()) {
-            int idGerado = rs.getInt("id");
+                idGerado = rs.getInt("id");
             }
 
             return idGerado;
 
         } catch (Exception e) {
             System.out.println("Erro ao inserir FORNECEDOR: " + e);
-            return -1;
+            return e.toString();
         }
     }
 

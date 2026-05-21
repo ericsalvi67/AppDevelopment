@@ -280,20 +280,27 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
             
         FornecedorDAO fornecedorDAO = new FornecedorDAO();
 
-        int id = fornecedorDAO.salvar(f);
-        if (id != -1) {
+        String id = fornecedorDAO.salvar(f);
+
+        try {
+            int idGerado = Integer.parseInt(id);
+        } catch (Exception e) {
+            idGerado = -1;
+        }
+
+        if (idGerado > 0) {
             tfdNome.setText("");
             tfdEmail.setText("");
             tfdTelefone.setText("");
             tfdCnpj.setText("");
 
-            System.out.println("ID Fornecedor: " + id);
+            System.out.println("ID Fornecedor: " + idGerado);
 
-            JOptionPane.showMessageDialog(this, "Registro salvo com sucesso!");
+            JOptionPane.showMessageDialog(this, "Registro salvo com sucesso! ID: " + idGerado);
 
             tfdNome.requestFocus();
         } else {
-            JOptionPane.showMessageDialog(this, "Problemas ao salvar registro!");
+            JOptionPane.showMessageDialog(this, "Problemas ao salvar registro! " + id);
         }
 
     }//GEN-LAST:event_btnSalvarActionPerformed

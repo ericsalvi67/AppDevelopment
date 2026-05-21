@@ -34,8 +34,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenuCadastro = new javax.swing.JMenu();
         jMenuItemFornecedor = new javax.swing.JMenuItem();
         jMenuItemCliente = new javax.swing.JMenuItem();
+        jMenuItemEndereco = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuAjuda = new javax.swing.JMenu();
+        jMenuItemProduto = new javax.swing.JMenuItem();
+        jMenuItemPedido = new javax.swing.JMenuItem();
         jMenuItemSair = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -68,6 +71,30 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
         jMenuCadastro.add(jMenuItemCliente);
+
+        jMenuItemEndereco.setText("Endereco");
+        jMenuItemEndereco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemEnderecoActionPerformed(evt);
+            }
+        });
+        jMenuCadastro.add(jMenuItemEndereco);
+
+        jMenuItemProduto.setText("Produto");
+        jMenuItemProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemProdutoActionPerformed(evt);
+            }
+        });
+        jMenuCadastro.add(jMenuItemProduto);
+
+        jMenuItemPedido.setText("Pedido");
+        jMenuItemPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPedidoActionPerformed(evt);
+            }
+        });
+        jMenuCadastro.add(jMenuItemPedido);
 
         jMenuBar1.add(jMenuCadastro);
 
@@ -122,6 +149,30 @@ public class FrmPrincipal extends javax.swing.JFrame {
         ifrCliente.setVisible(true);
     }//GEN-LAST:event_jMenuItemClienteActionPerformed
 
+    private void jMenuItemEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEnderecoActionPerformed
+        IfrEndereco ifrEndereco = new IfrEndereco();
+
+        jDesktopPane1.add(ifrEndereco);
+
+        ifrEndereco.setVisible(true);
+    }//GEN-LAST:event_jMenuItemEnderecoActionPerformed
+
+    private void jMenuItemProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemProdutoActionPerformed
+        IfrProduto ifrProduto = new IfrProduto();
+
+        jDesktopPane1.add(ifrProduto);
+
+        ifrProduto.setVisible(true);
+    }//GEN-LAST:event_jMenuItemProdutoActionPerformed
+
+    private void jMenuItemPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPedidoActionPerformed
+        IfrPedido ifrPedido = new IfrPedido();
+
+        jDesktopPane1.add(ifrPedido);
+
+        ifrPedido.setVisible(true);
+    }//GEN-LAST:event_jMenuItemPedidoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -165,6 +216,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuCadastro;
     private javax.swing.JMenuItem jMenuItemFornecedor;
     private javax.swing.JMenuItem jMenuItemCliente;
+    private javax.swing.JMenuItem jMenuItemEndereco;
     private javax.swing.JMenuItem jMenuItemSair;
+    private javax.swing.JMenuItem jMenuItemPedido;
+    private javax.swing.JMenuItem jMenuItemProduto;
     // End of variables declaration//GEN-END:variables
 }

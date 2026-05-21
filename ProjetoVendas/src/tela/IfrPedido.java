@@ -5,10 +5,9 @@
  */
 package tela;
 
-import apoio.ConexaoBD;
-import dao.FornecedorDAO;
-import entidade.Fornecedor;
-import java.sql.Statement;
+import dao.PedidoDAO;
+import entidade.Pedido;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -56,7 +55,7 @@ public class IfrPedido extends javax.swing.JInternalFrame {
         tfdBusca = new javax.swing.JTextField();
         jButtonSearch = new javax.swing.JButton();
 
-        setTitle("Cadastro: Fornecedor");
+        setTitle("Cadastro: Pedido");
 
         jButtonClose.setText("Fechar");
         jButtonClose.addActionListener(new java.awt.event.ActionListener() {
@@ -77,11 +76,11 @@ public class IfrPedido extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "ID", "Nome", "Email", "Telefone", "CNPJ"
+                "ID", "Data", "Endereço Entrega", "Observação", "Cliente ID"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
                 false, true, true, true, true
@@ -116,7 +115,7 @@ public class IfrPedido extends javax.swing.JInternalFrame {
 
         jTabbedPane1.addTab("Listagem", jPanel1);
 
-        jLabel1.setText("Nome");
+        jLabel1.setText("Data (yyyy-MM-dd)");
 
         tfdNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -124,11 +123,11 @@ public class IfrPedido extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel2.setText("Email");
+        jLabel2.setText("Endereço Entrega");
 
-        jLabel4.setText("Telefone");
+        jLabel4.setText("Observação");
 
-        jLabel5.setText("CNPJ");
+        jLabel5.setText("Cliente ID");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -189,7 +188,7 @@ public class IfrPedido extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Buscar");
 
-        jComboFornecedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Nome", "Email", "Telefone", "CNPJ" }));
+        jComboFornecedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Data", "Endereco_entrega", "Observacao", "Cliente_id" }));
         jComboFornecedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboFornecedorActionPerformed(evt);
@@ -262,7 +261,7 @@ public class IfrPedido extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonCloseActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        Fornecedor f = new Fornecedor();
+        Pedido p = new Pedido();
         
         if (   tfdNome.getText().isEmpty() 
             || tfdEmail.getText().isEmpty() 
@@ -273,51 +272,59 @@ public class IfrPedido extends javax.swing.JInternalFrame {
             return;
         }
         
-        f.setNome(tfdNome.getText().toUpperCase());
-        f.setEmail(tfdEmail.getText().toUpperCase());
-        f.setTelefone(tfdTelefone.getText().toUpperCase());
-        f.setCnpj(tfdCnpj.getText().toUpperCase());
+        p.setData(parseData(tfdNome.getText()));
+        p.setEndereco_entrega(tfdEmail.getText().toUpperCase());
+        p.setObservacao(tfdTelefone.getText().toUpperCase());
+        p.setCliente_id(Integer.parseInt(tfdCnpj.getText()));
             
-        FornecedorDAO fornecedorDAO = new FornecedorDAO();
+        PedidoDAO pedidoDAO = new PedidoDAO();
+        String id = pedidoDAO.salvar(p);
 
-        if (fornecedorDAO.salvar(f) == null) {
+        try {
+            int idGerado = Integer.parseInt(id);
+        } catch (Exception e) {
+            idGerado = -1;
+        }
+
+        if (idGerado > 0) {
             tfdNome.setText("");
             tfdEmail.setText("");
             tfdTelefone.setText("");
             tfdCnpj.setText("");
 
-            JOptionPane.showMessageDialog(this, "Registro salvo com sucesso!");
+            JOptionPane.showMessageDialog(this, "Registro salvo com sucesso! ID: " + idGerado);
 
             tfdNome.requestFocus();
         } else {
-            JOptionPane.showMessageDialog(this, "Problemas ao salvar registro!");
+            JOptionPane.showMessageDialog(this, "Problemas ao salvar registro! " + id);
         }
 
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void jButtonGetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGetActionPerformed
-        ArrayList<Fornecedor> f = new ArrayList();
+        ArrayList<Pedido> f = new ArrayList();
 
-        f = new FornecedorDAO().consultarTodos();
+        f = new PedidoDAO().consultarTodos();
 
-        for (Fornecedor x : f) {
+        for (Pedido x : f) {
             System.out.println("Id: " + x.getId());
-            System.out.println("Nome: " + x.getNome());
-            System.out.println("Telefone: " + x.getTelefone());
-            System.out.println("CNPJ: " + x.getCnpj());
+            System.out.println("Data: " + x.getData());
+            System.out.println("Endereço Entrega: " + x.getEndereco_entrega());
+            System.out.println("Observação: " + x.getObservacao());
+            System.out.println("Cliente ID: " + x.getCliente_id());
             System.out.println("");
         }
         
         DefaultTableModel modelo = (DefaultTableModel) jTableFornecedor.getModel();
         modelo.setRowCount(0);
 
-        for (Fornecedor x : f) {
+        for (Pedido x : f) {
             modelo.addRow(new Object[]{
                 x.getId(),
-                x.getNome(),
-                x.getEmail(),
-                x.getTelefone(),
-                x.getCnpj()
+                x.getData(),
+                x.getEndereco_entrega(),
+                x.getObservacao(),
+                x.getCliente_id()
             });
         }
     }//GEN-LAST:event_jButtonGetActionPerformed
@@ -335,34 +342,44 @@ public class IfrPedido extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tfdBuscaActionPerformed
 
     private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchActionPerformed
-        ArrayList<Fornecedor> f = new ArrayList();
+        ArrayList<Pedido> f = new ArrayList();
         String criterio = jComboFornecedor.getSelectedItem().toString();
         String valor = tfdBusca.getText();
         
         if(valor.isEmpty())
             return;
 
-        f = new FornecedorDAO().consultar(criterio.toLowerCase(), valor.toUpperCase());
+        f = new PedidoDAO().consultar(criterio.toLowerCase(), valor.toUpperCase());
 
-        for (Fornecedor x : f) {
+        for (Pedido x : f) {
             System.out.println("Id: " + x.getId());
-            System.out.println("Nome: " + x.getNome());
-            System.out.println("Telefone: " + x.getTelefone());
-            System.out.println("CNPJ: " + x.getCnpj());
+            System.out.println("Data: " + x.getData());
+            System.out.println("Endereço Entrega: " + x.getEndereco_entrega());
+            System.out.println("Observação: " + x.getObservacao());
+            System.out.println("Cliente ID: " + x.getCliente_id());
             System.out.println("");
         }
         
         DefaultTableModel modelo = (DefaultTableModel) jTableFornecedor.getModel();
         modelo.setRowCount(0);
 
-        for (Fornecedor x : f) {
+        for (Pedido x : f) {
             modelo.addRow(new Object[]{
                 x.getId(),
-                x.getNome(),
-                x.getEmail(),
-                x.getTelefone(),
-                x.getCnpj()
+                x.getData(),
+                x.getEndereco_entrega(),
+                x.getObservacao(),
+                x.getCliente_id()
             });
+        }
+
+    }
+
+    private java.util.Date parseData(String valor) {
+        try {
+            return new SimpleDateFormat("yyyy-MM-dd").parse(valor);
+        } catch (Exception e) {
+            return null;
         }
     }//GEN-LAST:event_jButtonSearchActionPerformed
 
