@@ -6,8 +6,8 @@
 package tela;
 
 import apoio.ConexaoBD;
-import dao.FornecedorDAO;
-import entidade.Fornecedor;
+import dao.ClienteDAO;
+import entidade.Cliente;
 import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -52,10 +52,11 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         tfdCpf = new javax.swing.JTextField();
         jButtonGet = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jComboFornecedor = new javax.swing.JComboBox<>();
+        jComboCliente = new javax.swing.JComboBox<>();
         tfdBusca = new javax.swing.JTextField();
         jButtonSearch = new javax.swing.JButton();
 
+        setResizable(true);
         setTitle("Cadastro: Cliente");
 
         jButtonClose.setText("Fechar");
@@ -189,10 +190,10 @@ public class IfrCliente extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Buscar");
 
-        jComboFornecedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Nome", "Email", "Telefone", "CNPJ" }));
-        jComboFornecedor.addActionListener(new java.awt.event.ActionListener() {
+        jComboCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Nome", "Email", "Telefone", "CPF" }));
+        jComboCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboFornecedorActionPerformed(evt);
+                jComboClienteActionPerformed(evt);
             }
         });
 
@@ -228,7 +229,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
                 .addGap(17, 17, 17)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jComboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfdBusca)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -241,7 +242,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jComboFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfdBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonSearch))
                 .addGap(18, 18, 18)
@@ -281,11 +282,11 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         ClienteDAO clienteDAO = new ClienteDAO();
 
         String id = clienteDAO.salvar(c);
+        int idGerado = -1;
+        
         try {
-            int idGerado = Integer.parseInt(id);
-        } catch (Exception e) {
-            idGerado = -1;
-        }
+            idGerado = Integer.parseInt(id);
+        } catch (Exception e) {}
 
         if (idGerado > 0) {
             tfdNome.setText("");
@@ -305,11 +306,11 @@ public class IfrCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void jButtonGetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGetActionPerformed
-        ArrayList<Cliente> f = new ArrayList();
+        ArrayList<Cliente> c = new ArrayList();
 
-        f = new ClienteDAO().consultarTodos();
+        c = new ClienteDAO().consultarTodos();
 
-        for (Cliente x : f) {
+        for (Cliente x : c) {
             System.out.println("Id: " + x.getId());
             System.out.println("Nome: " + x.getNome());
             System.out.println("Telefone: " + x.getTelefone());
@@ -320,7 +321,7 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         DefaultTableModel modelo = (DefaultTableModel) jTableCliente.getModel();
         modelo.setRowCount(0);
 
-        for (Cliente x : f) {
+        for (Cliente x : c) {
             modelo.addRow(new Object[]{
                 x.getId(),
                 x.getNome(),

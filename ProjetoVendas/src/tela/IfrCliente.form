@@ -2,7 +2,8 @@
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JInternalFrameFormInfo">
   <Properties>
-    <Property name="title" type="java.lang.String" value="Cadastro: Fornecedor"/>
+    <Property name="resizable" type="boolean" value="true"/>
+    <Property name="title" type="java.lang.String" value="Cadastro: Cliente"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -40,7 +41,7 @@
               <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
               <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jComboFornecedor" min="-2" max="-2" attributes="0"/>
+              <Component id="jComboCliente" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="tfdBusca" max="32767" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -55,7 +56,7 @@
               <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jComboFornecedor" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jComboCliente" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="tfdBusca" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonSearch" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -130,7 +131,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jTableFornecedor">
+                <Component class="javax.swing.JTable" name="jTableCliente">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="5" rowCount="0">
@@ -138,7 +139,7 @@
                         <Column editable="true" title="Nome" type="java.lang.String"/>
                         <Column editable="true" title="Email" type="java.lang.String"/>
                         <Column editable="true" title="Telefone" type="java.lang.String"/>
-                        <Column editable="true" title="CNPJ" type="java.lang.String"/>
+                        <Column editable="true" title="CPF" type="java.lang.String"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -212,7 +213,7 @@
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="tfdCnpj" min="-2" pref="466" max="-2" attributes="0"/>
+                                      <Component id="tfdCpf" min="-2" pref="466" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -243,7 +244,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="tfdCnpj" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="tfdCpf" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="190" max="32767" attributes="0"/>
                   </Group>
@@ -277,10 +278,10 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel5">
               <Properties>
-                <Property name="text" type="java.lang.String" value="CNPJ"/>
+                <Property name="text" type="java.lang.String" value="CPF"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="tfdCnpj">
+            <Component class="javax.swing.JTextField" name="tfdCpf">
             </Component>
           </SubComponents>
         </Container>
@@ -299,7 +300,7 @@
         <Property name="text" type="java.lang.String" value="Buscar"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="jComboFornecedor">
+    <Component class="javax.swing.JComboBox" name="jComboCliente">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="5">
@@ -307,12 +308,12 @@
             <StringItem index="1" value="Nome"/>
             <StringItem index="2" value="Email"/>
             <StringItem index="3" value="Telefone"/>
-            <StringItem index="4" value="CNPJ"/>
+            <StringItem index="4" value="CPF"/>
           </StringArray>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboFornecedorActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboClienteActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

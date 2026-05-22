@@ -50,7 +50,7 @@ public class CompraDAO implements IDAOT<Compra> {
                 idGerado = rs.getInt("id");
             }
 
-            return idGerado.toString();
+            return String.valueOf(idGerado);
 
         } catch (Exception e) {
             System.out.println("Erro ao inserir COMPRA: " + e);

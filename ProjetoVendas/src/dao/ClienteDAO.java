@@ -56,7 +56,7 @@ public class ClienteDAO implements IDAOT<Cliente> {
                 idGerado = rs.getInt("id");
             }
 
-            return idGerado.toString();
+            return String.valueOf(idGerado);
 
         } catch (Exception e) {
             System.out.println("Erro ao inserir CLIENTE: " + e);

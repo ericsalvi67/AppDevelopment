@@ -41,13 +41,11 @@ public class IfrProduto extends javax.swing.JInternalFrame {
         jTableFornecedor = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        tfdNome = new javax.swing.JTextField();
+        tfdDescricao = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        tfdEmail = new javax.swing.JTextField();
+        tfdValor = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         tfdTelefone = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        tfdCnpj = new javax.swing.JTextField();
         jButtonGet = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jComboFornecedor = new javax.swing.JComboBox<>();
@@ -75,11 +73,11 @@ public class IfrProduto extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "ID", "Descrição", "Valor Unitário", "Qtde Estoque"
+                "ID", "Descrição", "Valor unitario", "Quantidade Estoque"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Float.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
                 false, true, true, true
@@ -114,19 +112,25 @@ public class IfrProduto extends javax.swing.JInternalFrame {
 
         jTabbedPane1.addTab("Listagem", jPanel1);
 
-        jLabel1.setText("Descrição");
+        jLabel1.setText("Descricao");
 
-        tfdNome.addActionListener(new java.awt.event.ActionListener() {
+        tfdDescricao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfdNomeActionPerformed(evt);
+                tfdDescricaoActionPerformed(evt);
             }
         });
 
-        jLabel2.setText("Valor Unitário");
+        jLabel2.setText("Valor unitário");
 
-        jLabel4.setText("Qtde Estoque");
+        tfdValor.setToolTipText("");
+        tfdValor.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        tfdValor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfdValorActionPerformed(evt);
+            }
+        });
 
-        jLabel5.setText("ID");
+        jLabel4.setText("Quantidade");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -134,25 +138,20 @@ public class IfrProduto extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(tfdTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(29, 29, 29)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(tfdEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tfdNome, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tfdCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jLabel2))
-                .addContainerGap(279, Short.MAX_VALUE))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfdValor, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfdDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(254, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,20 +159,16 @@ public class IfrProduto extends javax.swing.JInternalFrame {
                 .addGap(52, 52, 52)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(tfdNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfdDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(tfdEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfdValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(tfdTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(tfdCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(190, Short.MAX_VALUE))
+                .addContainerGap(224, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Inserção", jPanel2);
@@ -187,7 +182,7 @@ public class IfrProduto extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Buscar");
 
-        jComboFornecedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Descrição", "Valor Unitário", "Qtde Estoque" }));
+        jComboFornecedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Descricao" }));
         jComboFornecedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboFornecedorActionPerformed(evt);
@@ -261,37 +256,42 @@ public class IfrProduto extends javax.swing.JInternalFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         Produto p = new Produto();
-        
-        if (   tfdNome.getText().isEmpty() 
-            || tfdEmail.getText().isEmpty() 
+
+        if (   tfdDescricao.getText().isEmpty()
+            || tfdValor.getText().isEmpty()
             || tfdTelefone.getText().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Não foi possível inserir os dados.");
-            tfdNome.requestFocus();
+            JOptionPane.showMessageDialog(this, "Não foi possível salvar os dados.");
+            tfdDescricao.requestFocus();
             return;
         }
-        
-        p.setDescricao(tfdNome.getText().toUpperCase());
-        p.setValor_unitario(Float.parseFloat(tfdEmail.getText().replace(",", ".")));
-        p.setQtde_estoque(tfdTelefone.getText().toUpperCase());
-            
-        ProdutoDAO produtoDAO = new ProdutoDAO();
-        String id = produtoDAO.salvar(p);
+
+        p.setDescricao(tfdDescricao.getText().toUpperCase());
+        p.setValor_unitario(Float.parseFloat(tfdValor.getText().replace(",", ".")));
 
         try {
-            int idGerado = Integer.parseInt(id);
-        } catch (Exception e) {
-            idGerado = -1;
+            p.setQtde_estoque(Integer.parseInt(tfdTelefone.getText()));
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Quantidade inválida.");
+            tfdTelefone.requestFocus();
+            return;
         }
 
-        if (idGerado > 0) {
-            tfdNome.setText("");
-            tfdEmail.setText("");
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        String id = produtoDAO.salvar(p);
+        int idGerado = -1;
+
+        try {
+            idGerado = Integer.parseInt(id);
+        } catch (Exception e) {}
+
+        if(idGerado > 0) {
+            tfdDescricao.setText("");
+            tfdValor.setText("");
             tfdTelefone.setText("");
-            tfdCnpj.setText(String.valueOf(idGerado));
 
-            JOptionPane.showMessageDialog(this, "Registro salvo com sucesso! ID: " + idGerado);
+            JOptionPane.showMessageDialog(this, "Registro salvo com sucesso: " + idGerado);
 
-            tfdNome.requestFocus();
+            tfdDescricao.requestFocus();
         } else {
             JOptionPane.showMessageDialog(this, "Problemas ao salvar registro! " + id);
         }
@@ -324,9 +324,9 @@ public class IfrProduto extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButtonGetActionPerformed
 
-    private void tfdNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdNomeActionPerformed
+    private void tfdDescricaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdDescricaoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tfdNomeActionPerformed
+    }//GEN-LAST:event_tfdDescricaoActionPerformed
 
     private void jComboFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboFornecedorActionPerformed
         // TODO add your handling code here:
@@ -367,6 +367,10 @@ public class IfrProduto extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButtonSearchActionPerformed
 
+    private void tfdValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdValorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfdValorActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSalvar;
@@ -378,16 +382,14 @@ public class IfrProduto extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTableFornecedor;
     private javax.swing.JTextField tfdBusca;
-    private javax.swing.JTextField tfdCnpj;
-    private javax.swing.JTextField tfdEmail;
-    private javax.swing.JTextField tfdNome;
+    private javax.swing.JTextField tfdDescricao;
     private javax.swing.JTextField tfdTelefone;
+    private javax.swing.JTextField tfdValor;
     // End of variables declaration//GEN-END:variables
 }

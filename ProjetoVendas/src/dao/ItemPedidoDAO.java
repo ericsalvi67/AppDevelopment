@@ -56,7 +56,7 @@ public class ItemPedidoDAO implements IDAOT<Item_pedido> {
                 idGerado = rs.getInt("id");
             }
 
-            return idGerado.toString();
+            return String.valueOf(idGerado);
 
         } catch (Exception e) {
             System.out.println("Erro ao inserir ITEM_PEDIDO: " + e);

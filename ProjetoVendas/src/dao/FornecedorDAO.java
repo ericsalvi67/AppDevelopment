@@ -57,7 +57,7 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
                 idGerado = rs.getInt("id");
             }
 
-            return idGerado;
+            return String.valueOf(idGerado);
 
         } catch (Exception e) {
             System.out.println("Erro ao inserir FORNECEDOR: " + e);

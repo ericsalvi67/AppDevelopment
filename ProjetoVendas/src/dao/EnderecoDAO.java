@@ -50,7 +50,7 @@ public class EnderecoDAO implements IDAOT<Endereco> {
                 idGerado = rs.getInt("id");
             }
 
-            return idGerado.toString();    
+            return String.valueOf(idGerado);   
 
         } catch (Exception e) {
             System.out.println("Erro ao inserir ENDERECO: " + e);

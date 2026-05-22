@@ -281,12 +281,11 @@ public class IfrFornecedor extends javax.swing.JInternalFrame {
         FornecedorDAO fornecedorDAO = new FornecedorDAO();
 
         String id = fornecedorDAO.salvar(f);
-
+        int idGerado = -1;
+        
         try {
-            int idGerado = Integer.parseInt(id);
-        } catch (Exception e) {
-            idGerado = -1;
-        }
+            idGerado = Integer.parseInt(id);
+        } catch (Exception e) {}
 
         if (idGerado > 0) {
             tfdNome.setText("");

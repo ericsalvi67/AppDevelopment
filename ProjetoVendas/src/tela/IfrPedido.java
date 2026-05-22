@@ -42,13 +42,13 @@ public class IfrPedido extends javax.swing.JInternalFrame {
         jTableFornecedor = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        tfdNome = new javax.swing.JTextField();
+        tfdData = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        tfdEmail = new javax.swing.JTextField();
+        tfdEndereco = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        tfdTelefone = new javax.swing.JTextField();
+        tfdObservacao = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        tfdCnpj = new javax.swing.JTextField();
+        tfdCliente = new javax.swing.JTextField();
         jButtonGet = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jComboFornecedor = new javax.swing.JComboBox<>();
@@ -76,11 +76,11 @@ public class IfrPedido extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "ID", "Data", "Endereço Entrega", "Observação", "Cliente ID"
+                "ID", "Data", "Endereço de entrega", "Observação", "Cliente"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, true, true, true, true
@@ -115,19 +115,19 @@ public class IfrPedido extends javax.swing.JInternalFrame {
 
         jTabbedPane1.addTab("Listagem", jPanel1);
 
-        jLabel1.setText("Data (yyyy-MM-dd)");
+        jLabel1.setText("Data");
 
-        tfdNome.addActionListener(new java.awt.event.ActionListener() {
+        tfdData.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfdNomeActionPerformed(evt);
+                tfdDataActionPerformed(evt);
             }
         });
 
-        jLabel2.setText("Endereço Entrega");
+        jLabel2.setText("Endereço de entrega");
 
         jLabel4.setText("Observação");
 
-        jLabel5.setText("Cliente ID");
+        jLabel5.setText("Cliente");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -136,24 +136,23 @@ public class IfrPedido extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tfdTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(tfdData, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfdEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(29, 29, 29)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(tfdEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tfdNome, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tfdCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jLabel2))
-                .addContainerGap(279, Short.MAX_VALUE))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfdObservacao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfdCliente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(223, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,19 +160,19 @@ public class IfrPedido extends javax.swing.JInternalFrame {
                 .addGap(52, 52, 52)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(tfdNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfdData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(tfdEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfdEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(tfdTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfdObservacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(tfdCnpj, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(190, Short.MAX_VALUE))
         );
 
@@ -188,7 +187,7 @@ public class IfrPedido extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Buscar");
 
-        jComboFornecedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Data", "Endereco_entrega", "Observacao", "Cliente_id" }));
+        jComboFornecedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Data", "Endereço", "Observação", "Cliente ID" }));
         jComboFornecedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboFornecedorActionPerformed(evt);
@@ -263,38 +262,36 @@ public class IfrPedido extends javax.swing.JInternalFrame {
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         Pedido p = new Pedido();
         
-        if (   tfdNome.getText().isEmpty() 
-            || tfdEmail.getText().isEmpty() 
-            || tfdTelefone.getText().isEmpty()
-            || tfdCnpj.getText().isEmpty()){
+        if (   tfdData.getText().isEmpty() 
+            || tfdEndereco.getText().isEmpty() 
+            || tfdObservacao.getText().isEmpty()){
             JOptionPane.showMessageDialog(this, "Não foi possível inserir os dados.");
-            tfdNome.requestFocus();
+            tfdData.requestFocus();
             return;
         }
         
-        p.setData(parseData(tfdNome.getText()));
-        p.setEndereco_entrega(tfdEmail.getText().toUpperCase());
-        p.setObservacao(tfdTelefone.getText().toUpperCase());
-        p.setCliente_id(Integer.parseInt(tfdCnpj.getText()));
+        p.setData(parseData(tfdData.getText()));
+        p.setEndereco_entrega(tfdEndereco.getText().toUpperCase());
+        p.setObservacao(tfdObservacao.getText().toUpperCase());
+        p.setCliente_id(Integer.parseInt(tfdCliente.getText()));
             
         PedidoDAO pedidoDAO = new PedidoDAO();
         String id = pedidoDAO.salvar(p);
+        int idGerado = -1;
 
         try {
-            int idGerado = Integer.parseInt(id);
-        } catch (Exception e) {
-            idGerado = -1;
-        }
+            idGerado = Integer.parseInt(id);
+        } catch (Exception e) {}
 
         if (idGerado > 0) {
-            tfdNome.setText("");
-            tfdEmail.setText("");
-            tfdTelefone.setText("");
-            tfdCnpj.setText("");
+            tfdData.setText("");
+            tfdEndereco.setText("");
+            tfdObservacao.setText("");
+            tfdCliente.setText("");
 
             JOptionPane.showMessageDialog(this, "Registro salvo com sucesso! ID: " + idGerado);
 
-            tfdNome.requestFocus();
+            tfdData.requestFocus();
         } else {
             JOptionPane.showMessageDialog(this, "Problemas ao salvar registro! " + id);
         }
@@ -329,9 +326,9 @@ public class IfrPedido extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButtonGetActionPerformed
 
-    private void tfdNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdNomeActionPerformed
+    private void tfdDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfdDataActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tfdNomeActionPerformed
+    }//GEN-LAST:event_tfdDataActionPerformed
 
     private void jComboFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboFornecedorActionPerformed
         // TODO add your handling code here:
@@ -401,9 +398,9 @@ public class IfrPedido extends javax.swing.JInternalFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTableFornecedor;
     private javax.swing.JTextField tfdBusca;
-    private javax.swing.JTextField tfdCnpj;
-    private javax.swing.JTextField tfdEmail;
-    private javax.swing.JTextField tfdNome;
-    private javax.swing.JTextField tfdTelefone;
+    private javax.swing.JTextField tfdCliente;
+    private javax.swing.JTextField tfdData;
+    private javax.swing.JTextField tfdEndereco;
+    private javax.swing.JTextField tfdObservacao;
     // End of variables declaration//GEN-END:variables
 }

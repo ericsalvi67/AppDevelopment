@@ -3,7 +3,7 @@ package entidade;
 public class Cliente {
     private int id;
     private String nome;
-    private String e_mail;
+    private String email;
     private String cpf;
     private String telefone; 
 
@@ -24,11 +24,11 @@ public class Cliente {
     }
 
     public String getEmail() {
-        return e_mail;
+        return email;
     }
 
     public void setEmail(String e_mail) {
-        this.e_mail = e_mail;
+        this.email = e_mail;
     }
 
     public String getCpf() {

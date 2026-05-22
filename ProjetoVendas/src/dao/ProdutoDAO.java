@@ -44,7 +44,7 @@ public class ProdutoDAO implements IDAOT<Produto> {
 
             pst.setString(1, o.getDescricao());
             pst.setFloat(2, o.getValor_unitario());
-            pst.setInt(3, Integer.parseInt(o.getQtde_estoque()));
+                pst.setInt(3, o.getQtde_estoque());
 
             ResultSet rs = pst.executeQuery();
             System.out.println("SQL executado!");
@@ -53,7 +53,7 @@ public class ProdutoDAO implements IDAOT<Produto> {
                 idGerado = rs.getInt("id");
             }
 
-            return idGerado.toString();
+            return String.valueOf(idGerado);
 
         } catch (Exception e) {
             System.out.println("Erro ao inserir PRODUTO: " + e);
@@ -68,7 +68,7 @@ public class ProdutoDAO implements IDAOT<Produto> {
 
             pst.setString(1, o.getDescricao());
             pst.setFloat(2, o.getValor_unitario());
-            pst.setInt(3, Integer.parseInt(o.getQtde_estoque()));
+                pst.setInt(3, o.getQtde_estoque());
             pst.setInt(4, o.getId());
 
             pst.executeUpdate();
@@ -116,7 +116,7 @@ public class ProdutoDAO implements IDAOT<Produto> {
                 produto.setId(rs.getInt("id"));
                 produto.setDescricao(rs.getString("descricao"));
                 produto.setValor_unitario(rs.getFloat("valor_unitario"));
-                produto.setQtde_estoque(String.valueOf(rs.getInt("qtde_estoque")));
+                    produto.setQtde_estoque(rs.getInt("qtde_estoque"));
 
                 lista.add(produto);
             }
@@ -144,7 +144,7 @@ public class ProdutoDAO implements IDAOT<Produto> {
                 produto.setId(rs.getInt("id"));
                 produto.setDescricao(rs.getString("descricao"));
                 produto.setValor_unitario(rs.getFloat("valor_unitario"));
-                produto.setQtde_estoque(String.valueOf(rs.getInt("qtde_estoque")));
+                    produto.setQtde_estoque(rs.getInt("qtde_estoque"));
 
                 lista.add(produto);
             }
@@ -172,7 +172,7 @@ public class ProdutoDAO implements IDAOT<Produto> {
                 produto.setId(rs.getInt("id"));
                 produto.setDescricao(rs.getString("descricao"));
                 produto.setValor_unitario(rs.getFloat("valor_unitario"));
-                produto.setQtde_estoque(String.valueOf(rs.getInt("qtde_estoque")));
+                 produto.setQtde_estoque(rs.getInt("qtde_estoque"));
             }
 
         } catch (Exception e) {
