@@ -9,34 +9,30 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class FornecedorDAO implements IDAOT<Fornecedor> {
-    
-    public static final String _select = 
-        "select id, "
-        + "nome, "
-        + "email, "
-        + "telefone, "
-        + "cnpj "
-        + "from fornecedor ";
-    
-    public static final String _insert = 
-        "insert into fornecedor "
-        + "(nome, email, telefone, cnpj) "
-        + "values "
-        + "(?, ?, ?, ?)"
-        + "returning id";
 
-    public static final String _update =
-        "update fornecedor "
-        + "set nome = ?, "
-        + "email = ?, "
-        + "telefone = ?, "
-        + "cnpj = ? "
-        + "where id = ?";
-    
-    public static final String _delete =
-        "delete from fornecedor "
-        + "where id = ?";
-    
+    public static final String _select = "select id, "
+            + "nome, "
+            + "email, "
+            + "telefone, "
+            + "cnpj "
+            + "from fornecedor ";
+
+    public static final String _insert = "insert into fornecedor "
+            + "(nome, email, telefone, cnpj) "
+            + "values "
+            + "(?, ?, ?, ?)"
+            + "returning id";
+
+    public static final String _update = "update fornecedor "
+            + "set nome = ?, "
+            + "email = ?, "
+            + "telefone = ?, "
+            + "cnpj = ? "
+            + "where id = ?";
+
+    public static final String _delete = "delete from fornecedor "
+            + "where id = ?";
+
     @Override
     public String salvar(Fornecedor o) {
         int idGerado = -1;
@@ -45,10 +41,10 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
 
             PreparedStatement pst = ConexaoBD.getInstance().getConnection().prepareStatement(_insert);
 
-            pst.setString(1, o.getNome());
-            pst.setString(2, o.getEmail());
-            pst.setString(3, o.getTelefone());
-            pst.setString(4, o.getCnpj());
+            pst.setString(1, o.nome);
+            pst.setString(2, o.email);
+            pst.setString(3, o.telefone);
+            pst.setString(4, o.cnpj);
 
             ResultSet rs = pst.executeQuery();
             System.out.println("SQL executado!");
@@ -70,16 +66,16 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
         try {
             PreparedStatement pst = ConexaoBD.getInstance().getConnection().prepareStatement(_update);
 
-            pst.setString(1, o.getNome());
-            pst.setString(2, o.getEmail());
-            pst.setString(3, o.getTelefone());
-            pst.setString(4, o.getCnpj());
-            pst.setInt(5, o.getId());
+            pst.setString(1, o.nome);
+            pst.setString(2, o.email);
+            pst.setString(3, o.telefone);
+            pst.setString(4, o.cnpj);
+            pst.setInt(5, o.id);
 
             pst.executeUpdate();
             System.out.println("SQL executado!");
 
-            return null;
+            return "0";
 
         } catch (Exception e) {
             System.out.println("Erro ao atualizar FORNECEDOR: " + e);
@@ -116,15 +112,13 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
             System.out.println("SQL executado!");
 
             while (rs.next()) {
-                Fornecedor fornecedor = new Fornecedor();
-
-                fornecedor.setId(rs.getInt("id"));
-                fornecedor.setNome(rs.getString("nome"));
-                fornecedor.setEmail(rs.getString("email"));
-                fornecedor.setTelefone(rs.getString("telefone"));
-                fornecedor.setCnpj(rs.getString("cnpj"));
-
-                fornecedores.add(fornecedor);
+                fornecedores.add(
+                        new Fornecedor(
+                                rs.getInt("id"),
+                                rs.getString("nome"),
+                                rs.getString("email"),
+                                rs.getString("telefone"),
+                                rs.getString("cnpj")));
             }
 
         } catch (Exception e) {
@@ -141,19 +135,17 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            ResultSet rs = st.executeQuery(_select + " where " + criterio + " like '%" + valor + "%';");
+            ResultSet rs = st.executeQuery(_select + " where " + criterio + " ilike '%" + valor + "%';");
             System.out.println("SQL executado!");
 
             while (rs.next()) {
-                Fornecedor fornecedor = new Fornecedor();
-
-                fornecedor.setId(rs.getInt("id"));
-                fornecedor.setNome(rs.getString("nome"));
-                fornecedor.setEmail(rs.getString("email"));
-                fornecedor.setTelefone(rs.getString("telefone"));
-                fornecedor.setCnpj(rs.getString("cnpj"));
-
-                fornecedores.add(fornecedor);
+                fornecedores.add(
+                        new Fornecedor(
+                                rs.getInt("id"),
+                                rs.getString("nome"),
+                                rs.getString("email"),
+                                rs.getString("telefone"),
+                                rs.getString("cnpj")));
             }
 
         } catch (Exception e) {
@@ -174,13 +166,12 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
             System.out.println("SQL executado!");
 
             while (rs.next()) {
-                fornecedor = new Fornecedor();
-
-                fornecedor.setId(rs.getInt("id"));
-                fornecedor.setNome(rs.getString("nome"));
-                fornecedor.setEmail(rs.getString("email"));
-                fornecedor.setTelefone(rs.getString("telefone"));
-                fornecedor.setCnpj(rs.getString("cnpj"));
+                fornecedor = new Fornecedor(
+                        rs.getInt("id"),
+                        rs.getString("nome"),
+                        rs.getString("email"),
+                        rs.getString("telefone"),
+                        rs.getString("cnpj"));
             }
 
         } catch (Exception e) {

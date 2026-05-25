@@ -7,17 +7,22 @@ package tela;
 
 import dao.EnderecoDAO;
 import entidade.Endereco;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class IfrEndereco extends javax.swing.JInternalFrame {
 
+    int ID = 0;
+
     public IfrEndereco() {
         initComponents();
     }
 
     @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -27,7 +32,7 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableEndereco = new javax.swing.JTable();
+        tblEndereco = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         tfdDescricao = new javax.swing.JTextField();
@@ -38,6 +43,8 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
         jComboEndereco = new javax.swing.JComboBox();
         tfdBusca = new javax.swing.JTextField();
         jButtonSearch = new javax.swing.JButton();
+        btnDeletar = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
 
         setTitle("Cadastro: Endereco");
 
@@ -55,7 +62,7 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
             }
         });
 
-        jTableEndereco.setModel(new javax.swing.table.DefaultTableModel(
+        tblEndereco.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][] {
 
                 },
@@ -77,7 +84,7 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
                 return canEdit[columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTableEndereco);
+        jScrollPane1.setViewportView(tblEndereco);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -156,11 +163,11 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Buscar");
 
-        jComboEndereco.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ID", "Descricao", "CEP" }));
+        jComboEndereco.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Descricao", "CEP" }));
 
         tfdBusca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSearchActionPerformed(evt);
+                tfdBuscaActionPerformed(evt);
             }
         });
 
@@ -168,6 +175,21 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
         jButtonSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSearchActionPerformed(evt);
+            }
+        });
+
+        btnDeletar.setBackground(new java.awt.Color(200, 0, 0));
+        btnDeletar.setText("Deletar");
+        btnDeletar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeletarActionPerformed(evt);
+            }
+        });
+
+        btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
             }
         });
 
@@ -180,7 +202,11 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createSequentialGroup()
                                                 .addComponent(jButtonGet)
-                                                .addGap(575, 575, 575)
+                                                .addGap(419, 419, 419)
+                                                .addComponent(btnDeletar)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btnEditar)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(btnSalvar)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(jButtonClose))
@@ -215,38 +241,110 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
                                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401,
                                         javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jButtonClose)
-                                        .addComponent(btnSalvar)
-                                        .addComponent(jButtonGet))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(btnEditar)
+                                                .addComponent(btnDeletar))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(jButtonClose)
+                                                .addComponent(btnSalvar)
+                                                .addComponent(jButtonGet)))
                                 .addGap(19, 19, 19)));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnDeletarActionPerformed
+        ArrayList<Endereco> e = new ArrayList();
+        String idTabela = String.valueOf(tblEndereco.getValueAt(tblEndereco.getSelectedRow(), 0));
+
+        ID = Integer.parseInt(idTabela);
+
+        int resposta = JOptionPane.showConfirmDialog(
+                this,
+                "Deseja realmente excluir este registro?",
+                "Confirmação",
+                JOptionPane.YES_NO_OPTION);
+
+        if (resposta == JOptionPane.YES_OPTION) {
+
+            try {
+                new EnderecoDAO().excluir(ID);
+                JOptionPane.showMessageDialog(this, "Registro excluído com sucesso!");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Problemas ao excluir registro!");
+            }
+
+            e = new EnderecoDAO().consultarTodos();
+
+            DefaultTableModel modelo = (DefaultTableModel) tblEndereco.getModel();
+            modelo.setRowCount(0);
+
+            for (Endereco x : e) {
+                modelo.addRow(new Object[] {
+                        x.id,
+                        x.descricao,
+                        x.cep
+                });
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Problemas ao excluir registro!");
+        }
+
+        ID = 0;
+    }// GEN-LAST:event_btnDeletarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnEditarActionPerformed
+        String idTabela = String.valueOf(tblEndereco.getValueAt(tblEndereco.getSelectedRow(), 0));
+
+        Endereco e = new EnderecoDAO().consultarId(Integer.parseInt(idTabela));
+
+        ID = e.id;
+
+        if (e != null) {
+            jTabbedPane1.setSelectedIndex(1);
+
+            tfdDescricao.setText(e.descricao);
+            tfdCep.setText(e.cep);
+
+            tfdDescricao.requestFocus();
+        } else {
+            JOptionPane.showMessageDialog(this, "Id da cidade não encontrado!");
+        }
+    }// GEN-LAST:event_btnEditarActionPerformed
 
     private void jButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonCloseActionPerformed
         this.dispose();
     }// GEN-LAST:event_jButtonCloseActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSalvarActionPerformed
-        Endereco endereco = new Endereco();
 
-        if (tfdDescricao.getText().isEmpty() || tfdCep.getText().isEmpty()) {
+        if (tfdDescricao.getText().isEmpty()
+                || tfdCep.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Não foi possível inserir os dados.");
             tfdDescricao.requestFocus();
             return;
         }
 
-        endereco.setDescricao(tfdDescricao.getText().toUpperCase());
-        endereco.setCep(tfdCep.getText().toUpperCase());
+        Endereco e = new Endereco(
+                ID,
+                tfdDescricao.getText(),
+                tfdCep.getText());
 
         EnderecoDAO enderecoDAO = new EnderecoDAO();
-        String id = enderecoDAO.salvar(endereco);
 
         int idGerado = -1;
+        String id = null;
+
+        if (ID == 0) {
+            enderecoDAO.salvar(e);
+        } else {
+            enderecoDAO.atualizar(e);
+        }
+
         try {
             idGerado = Integer.parseInt(id);
-        } catch (Exception e) {
+        } catch (Exception ex) {
             idGerado = -1;
         }
 
@@ -262,24 +360,24 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
     }// GEN-LAST:event_btnSalvarActionPerformed
 
     private void jButtonGetActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonGetActionPerformed
-        ArrayList<Endereco> lista = new ArrayList<>();
+        ArrayList<Endereco> e = new ArrayList<>();
 
-        lista = new EnderecoDAO().consultarTodos();
+        e = new EnderecoDAO().consultarTodos();
 
-        DefaultTableModel modelo = (DefaultTableModel) jTableEndereco.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) tblEndereco.getModel();
         modelo.setRowCount(0);
 
-        for (Endereco x : lista) {
+        for (Endereco x : e) {
             modelo.addRow(new Object[] {
-                    x.getId(),
-                    x.getDescricao(),
-                    x.getCep()
+                    x.id,
+                    x.descricao,
+                    x.cep
             });
         }
     }// GEN-LAST:event_jButtonGetActionPerformed
 
     private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonSearchActionPerformed
-        ArrayList<Endereco> lista = new ArrayList<>();
+        ArrayList<Endereco> e = new ArrayList<>();
         String criterio = jComboEndereco.getSelectedItem().toString();
         String valor = tfdBusca.getText();
 
@@ -287,16 +385,16 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
             return;
         }
 
-        lista = new EnderecoDAO().consultar(criterio.toLowerCase(), valor.toUpperCase());
+        e = new EnderecoDAO().consultar(criterio, valor);
 
-        DefaultTableModel modelo = (DefaultTableModel) jTableEndereco.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) tblEndereco.getModel();
         modelo.setRowCount(0);
 
-        for (Endereco x : lista) {
+        for (Endereco x : e) {
             modelo.addRow(new Object[] {
-                    x.getId(),
-                    x.getDescricao(),
-                    x.getCep()
+                    x.id,
+                    x.descricao,
+                    x.cep
             });
         }
     }// GEN-LAST:event_jButtonSearchActionPerformed
@@ -305,7 +403,13 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }// GEN-LAST:event_tfdDescricaoActionPerformed
 
+    private void tfdBuscaActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDeletar;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton jButtonClose;
     private javax.swing.JButton jButtonGet;
@@ -318,7 +422,7 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTableEndereco;
+    private javax.swing.JTable tblEndereco;
     private javax.swing.JTextField tfdBusca;
     private javax.swing.JTextField tfdCep;
     private javax.swing.JTextField tfdDescricao;

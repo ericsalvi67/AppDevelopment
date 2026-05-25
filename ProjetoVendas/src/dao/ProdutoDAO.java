@@ -10,30 +10,26 @@ import java.util.ArrayList;
 
 public class ProdutoDAO implements IDAOT<Produto> {
 
-    public static final String _select =
-        "select id, "
-        + "descricao, "
-        + "valor_unitario, "
-        + "qtde_estoque "
-        + "from produto ";
+    public static final String _select = "select id, "
+            + "descricao, "
+            + "valor_unitario, "
+            + "qtde_estoque "
+            + "from produto ";
 
-    public static final String _insert =
-        "insert into produto "
-        + "(descricao, valor_unitario, qtde_estoque) "
-        + "values "
-        + "(?, ?, ?)"
-        + "returning id";
+    public static final String _insert = "insert into produto "
+            + "(descricao, valor_unitario, qtde_estoque) "
+            + "values "
+            + "(?, ?, ?)"
+            + "returning id";
 
-    public static final String _update =
-        "update produto "
-        + "set descricao = ?, "
-        + "valor_unitario = ?, "
-        + "qtde_estoque = ? "
-        + "where id = ?";
+    public static final String _update = "update produto "
+            + "set descricao = ?, "
+            + "valor_unitario = ?, "
+            + "qtde_estoque = ? "
+            + "where id = ?";
 
-    public static final String _delete =
-        "delete from produto "
-        + "where id = ?";
+    public static final String _delete = "delete from produto "
+            + "where id = ?";
 
     @Override
     public String salvar(Produto o) {
@@ -42,9 +38,9 @@ public class ProdutoDAO implements IDAOT<Produto> {
         try {
             PreparedStatement pst = ConexaoBD.getInstance().getConnection().prepareStatement(_insert);
 
-            pst.setString(1, o.getDescricao());
-            pst.setFloat(2, o.getValor_unitario());
-                pst.setInt(3, o.getQtde_estoque());
+            pst.setString(1, o.descricao);
+            pst.setFloat(2, o.valor_unitario);
+            pst.setInt(3, o.qtde_estoque);
 
             ResultSet rs = pst.executeQuery();
             System.out.println("SQL executado!");
@@ -66,15 +62,15 @@ public class ProdutoDAO implements IDAOT<Produto> {
         try {
             PreparedStatement pst = ConexaoBD.getInstance().getConnection().prepareStatement(_update);
 
-            pst.setString(1, o.getDescricao());
-            pst.setFloat(2, o.getValor_unitario());
-                pst.setInt(3, o.getQtde_estoque());
-            pst.setInt(4, o.getId());
+            pst.setString(1, o.descricao);
+            pst.setFloat(2, o.valor_unitario);
+            pst.setInt(3, o.qtde_estoque);
+            pst.setInt(4, o.id);
 
             pst.executeUpdate();
             System.out.println("SQL executado!");
 
-            return null;
+            return "0";
 
         } catch (Exception e) {
             System.out.println("Erro ao atualizar PRODUTO: " + e);
@@ -102,7 +98,7 @@ public class ProdutoDAO implements IDAOT<Produto> {
 
     @Override
     public ArrayList<Produto> consultarTodos() {
-        ArrayList<Produto> lista = new ArrayList<>();
+        ArrayList<Produto> produtos = new ArrayList<>();
 
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
@@ -111,49 +107,46 @@ public class ProdutoDAO implements IDAOT<Produto> {
             System.out.println("SQL executado!");
 
             while (rs.next()) {
-                Produto produto = new Produto();
-
-                produto.setId(rs.getInt("id"));
-                produto.setDescricao(rs.getString("descricao"));
-                produto.setValor_unitario(rs.getFloat("valor_unitario"));
-                    produto.setQtde_estoque(rs.getInt("qtde_estoque"));
-
-                lista.add(produto);
+                produtos.add(
+                        new Produto(
+                                rs.getInt("id"),
+                                rs.getString("descricao"),
+                                rs.getFloat("valor_unitario"),
+                                rs.getInt("qtde_estoque")));
             }
 
         } catch (Exception e) {
             System.out.println("Erro ao consultar PRODUTOS: " + e);
         }
 
-        return lista;
+        return produtos;
     }
 
     @Override
     public ArrayList<Produto> consultar(String criterio, String valor) {
-        ArrayList<Produto> lista = new ArrayList<>();
+        ArrayList<Produto> produtos = new ArrayList<>();
 
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            ResultSet rs = st.executeQuery(_select + " where " + criterio + " like '%" + valor + "%';");
+            ResultSet rs = st.executeQuery(_select + " where " + criterio + " ilike '%" + valor + "%';");
             System.out.println("SQL executado!");
 
             while (rs.next()) {
-                Produto produto = new Produto();
+                produtos.add(
+                        new Produto(
+                                rs.getInt("id"),
+                                rs.getString("descricao"),
+                                rs.getFloat("valor_unitario"),
+                                rs.getInt("qtde_estoque")));
 
-                produto.setId(rs.getInt("id"));
-                produto.setDescricao(rs.getString("descricao"));
-                produto.setValor_unitario(rs.getFloat("valor_unitario"));
-                    produto.setQtde_estoque(rs.getInt("qtde_estoque"));
-
-                lista.add(produto);
             }
 
         } catch (Exception e) {
             System.out.println("Erro ao consultar PRODUTOS: " + e);
         }
 
-        return lista;
+        return produtos;
     }
 
     @Override
@@ -167,12 +160,11 @@ public class ProdutoDAO implements IDAOT<Produto> {
             System.out.println("SQL executado!");
 
             while (rs.next()) {
-                produto = new Produto();
-
-                produto.setId(rs.getInt("id"));
-                produto.setDescricao(rs.getString("descricao"));
-                produto.setValor_unitario(rs.getFloat("valor_unitario"));
-                 produto.setQtde_estoque(rs.getInt("qtde_estoque"));
+                produto = new Produto(
+                        rs.getInt("id"),
+                        rs.getString("descricao"),
+                        rs.getFloat("valor_unitario"),
+                        rs.getInt("qtde_estoque"));
             }
 
         } catch (Exception e) {

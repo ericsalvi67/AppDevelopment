@@ -14,42 +14,38 @@ public class PedidoDAO implements IDAOT<Pedido> {
 
     private static final SimpleDateFormat FORMATO_DATA = new SimpleDateFormat("yyyy-MM-dd");
 
-    public static final String _select =
-        "select id, "
-        + "data, "
-        + "endereco_entrega, "
-        + "observacao, "
-        + "cliente_id "
-        + "from pedido ";
+    public static final String _select = "select id, "
+            + "data, "
+            + "endereco_entrega, "
+            + "observacao, "
+            + "cliente_id "
+            + "from pedido ";
 
-    public static final String _insert =
-        "insert into pedido "
-        + "(data, endereco_entrega, observacao, cliente_id) "
-        + "values "
-        + "(?, ?, ?, ?)"
-        + "returning id";
+    public static final String _insert = "insert into pedido "
+            + "(data, endereco_entrega, observacao, cliente_id) "
+            + "values "
+            + "(?, ?, ?, ?)"
+            + "returning id";
 
-    public static final String _update =
-        "update pedido "
-        + "set data = ?, "
-        + "endereco_entrega = ?, "
-        + "observacao = ?, "
-        + "cliente_id = ? "
-        + "where id = ?";
+    public static final String _update = "update pedido "
+            + "set data = ?, "
+            + "endereco_entrega = ?, "
+            + "observacao = ?, "
+            + "cliente_id = ? "
+            + "where id = ?";
 
-    public static final String _delete =
-        "delete from pedido "
-        + "where id = ?";
+    public static final String _delete = "delete from pedido "
+            + "where id = ?";
 
     @Override
     public String salvar(Pedido o) {
         try {
             PreparedStatement pst = ConexaoBD.getInstance().getConnection().prepareStatement(_insert);
 
-            pst.setString(1, formatarData(o.getData()));
-            pst.setString(2, o.getEndereco_entrega());
-            pst.setString(3, o.getObservacao());
-            pst.setInt(4, o.getCliente_id());
+            pst.setString(1, formatarData(o.data));
+            pst.setString(2, o.endereco_entrega);
+            pst.setString(3, o.observacao);
+            pst.setInt(4, o.cliente_id);
 
             ResultSet rs = pst.executeQuery();
             System.out.println("SQL executado!");
@@ -72,16 +68,16 @@ public class PedidoDAO implements IDAOT<Pedido> {
         try {
             PreparedStatement pst = ConexaoBD.getInstance().getConnection().prepareStatement(_update);
 
-            pst.setString(1, formatarData(o.getData()));
-            pst.setString(2, o.getEndereco_entrega());
-            pst.setString(3, o.getObservacao());
-            pst.setInt(4, o.getCliente_id());
-            pst.setInt(5, o.getId());
+            pst.setString(1, formatarData(o.data));
+            pst.setString(2, o.endereco_entrega);
+            pst.setString(3, o.observacao);
+            pst.setInt(4, o.cliente_id);
+            pst.setInt(5, o.id);
 
             pst.executeUpdate();
             System.out.println("SQL executado!");
 
-            return null;
+            return "0";
 
         } catch (Exception e) {
             System.out.println("Erro ao atualizar PEDIDO: " + e);
@@ -109,7 +105,7 @@ public class PedidoDAO implements IDAOT<Pedido> {
 
     @Override
     public ArrayList<Pedido> consultarTodos() {
-        ArrayList<Pedido> lista = new ArrayList<>();
+        ArrayList<Pedido> pedidos = new ArrayList<>();
 
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
@@ -118,51 +114,43 @@ public class PedidoDAO implements IDAOT<Pedido> {
             System.out.println("SQL executado!");
 
             while (rs.next()) {
-                Pedido pedido = new Pedido();
-
-                pedido.setId(rs.getInt("id"));
-                pedido.setData(parseData(rs.getString("data")));
-                pedido.setEndereco_entrega(rs.getString("endereco_entrega"));
-                pedido.setObservacao(rs.getString("observacao"));
-                pedido.setCliente_id(rs.getInt("cliente_id"));
-
-                lista.add(pedido);
+                pedidos.add(new Pedido(rs.getInt("id"),
+                        parseData(rs.getString("data")),
+                        rs.getString("endereco_entrega"),
+                        rs.getString("observacao"),
+                        rs.getInt("cliente_id")));
             }
 
         } catch (Exception e) {
             System.out.println("Erro ao consultar PEDIDOS: " + e);
         }
 
-        return lista;
+        return pedidos;
     }
 
     @Override
     public ArrayList<Pedido> consultar(String criterio, String valor) {
-        ArrayList<Pedido> lista = new ArrayList<>();
+        ArrayList<Pedido> pedidos = new ArrayList<>();
 
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            ResultSet rs = st.executeQuery(_select + " where " + criterio + " like '%" + valor + "%';");
+            ResultSet rs = st.executeQuery(_select + " where " + criterio + " ilike '%" + valor + "%';");
             System.out.println("SQL executado!");
 
             while (rs.next()) {
-                Pedido pedido = new Pedido();
-
-                pedido.setId(rs.getInt("id"));
-                pedido.setData(parseData(rs.getString("data")));
-                pedido.setEndereco_entrega(rs.getString("endereco_entrega"));
-                pedido.setObservacao(rs.getString("observacao"));
-                pedido.setCliente_id(rs.getInt("cliente_id"));
-
-                lista.add(pedido);
+                pedidos.add(new Pedido(rs.getInt("id"),
+                        parseData(rs.getString("data")),
+                        rs.getString("endereco_entrega"),
+                        rs.getString("observacao"),
+                        rs.getInt("cliente_id")));
             }
 
         } catch (Exception e) {
             System.out.println("Erro ao consultar PEDIDOS: " + e);
         }
 
-        return lista;
+        return pedidos;
     }
 
     @Override
@@ -176,13 +164,11 @@ public class PedidoDAO implements IDAOT<Pedido> {
             System.out.println("SQL executado!");
 
             while (rs.next()) {
-                pedido = new Pedido();
-
-                pedido.setId(rs.getInt("id"));
-                pedido.setData(parseData(rs.getString("data")));
-                pedido.setEndereco_entrega(rs.getString("endereco_entrega"));
-                pedido.setObservacao(rs.getString("observacao"));
-                pedido.setCliente_id(rs.getInt("cliente_id"));
+                pedido = new Pedido(rs.getInt("id"),
+                        parseData(rs.getString("data")),
+                        rs.getString("endereco_entrega"),
+                        rs.getString("observacao"),
+                        rs.getInt("cliente_id"));
             }
 
         } catch (Exception e) {

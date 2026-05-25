@@ -13,12 +13,12 @@ import tela.FrmPrincipal;
 public class ProjetoVendas {
 
     static Connection conexao = null;
-    
+
     public static void main(String[] args) {
-        
+
         var create = new TablesInsertionDB();
-        
-        try{
+
+        try {
             // com classe ConexaoBD.java
             if (ConexaoBD.getInstance().getConnection() != null) {
                 new FrmPrincipal().setVisible(true);
@@ -26,9 +26,8 @@ public class ProjetoVendas {
             } else {
                 JOptionPane.showMessageDialog(null, "Erro ao conectar no Banco de Dados!");
             }
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.err.println(e);
-        }       
+        }
     }
 }

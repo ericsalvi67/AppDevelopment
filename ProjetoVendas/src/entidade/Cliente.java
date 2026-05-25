@@ -1,49 +1,17 @@
 package entidade;
 
 public class Cliente {
-    private int id;
-    private String nome;
-    private String email;
-    private String cpf;
-    private String telefone; 
+    public int id;
+    public String nome;
+    public String email;
+    public String cpf;
+    public String telefone;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
+    public Cliente(int id, String nome, String email, String cpf, String telefone) {
         this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String e_mail) {
-        this.email = e_mail;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
+        this.email = email;
         this.cpf = cpf;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
 }
