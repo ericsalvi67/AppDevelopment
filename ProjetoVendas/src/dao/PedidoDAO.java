@@ -131,11 +131,16 @@ public class PedidoDAO implements IDAOT<Pedido> {
     @Override
     public ArrayList<Pedido> consultar(String criterio, String valor) {
         ArrayList<Pedido> pedidos = new ArrayList<>();
-
+        String sql = _select + " where " + criterio + " ilike '%" + valor + "%';";
+        
+        if(criterio == "ID"){
+            sql = _select + " where " + criterio + " = " + valor + ";";
+        }
+        
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            ResultSet rs = st.executeQuery(_select + " where " + criterio + " ilike '%" + valor + "%';");
+            ResultSet rs = st.executeQuery(sql);
             System.out.println("SQL executado!");
 
             while (rs.next()) {

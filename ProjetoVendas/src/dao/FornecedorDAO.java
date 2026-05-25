@@ -131,11 +131,16 @@ public class FornecedorDAO implements IDAOT<Fornecedor> {
     @Override
     public ArrayList<Fornecedor> consultar(String criterio, String valor) {
         ArrayList<Fornecedor> fornecedores = new ArrayList<>();
+        String sql = _select + " where " + criterio + " ilike '%" + valor + "%';";
+        
+        if(criterio == "ID"){
+            sql = _select + " where " + criterio + " = " + valor + ";";
+        }
 
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            ResultSet rs = st.executeQuery(_select + " where " + criterio + " ilike '%" + valor + "%';");
+            ResultSet rs = st.executeQuery(sql);
             System.out.println("SQL executado!");
 
             while (rs.next()) {
