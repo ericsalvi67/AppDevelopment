@@ -19,6 +19,7 @@ public class IfrPedido extends javax.swing.JInternalFrame {
 
     public IfrPedido() {
         initComponents();
+        GetAllData();
     }
 
     /**
@@ -278,11 +279,28 @@ public class IfrPedido extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonCloseActionPerformed
+    private void jButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {
         this.dispose();
-    }// GEN-LAST:event_jButtonCloseActionPerformed
+    }
+    
+    private void jButtonGetActionPerformed(java.awt.event.ActionEvent evt) {
+        GetAllData();
+    }
+    
+    private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonSearchActionPerformed
+        ArrayList<Pedido> p = new ArrayList();
+        String criterio = jComboFornecedor.getSelectedItem().toString();
+        String valor = tfdBusca.getText();
 
-    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSalvarActionPerformed
+        if (valor.isEmpty())
+            return;
+
+        p = new PedidoDAO().consultar(criterio, valor);
+
+        ExibitData(p);
+    }
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {
 
         if (tfdData.getText().isEmpty()
                 || tfdEndereco.getText().isEmpty()
@@ -302,119 +320,50 @@ public class IfrPedido extends javax.swing.JInternalFrame {
         PedidoDAO pedidoDAO = new PedidoDAO();
 
         int idGerado = -1;
-        String id = null;
         String logRegistro = null;
 
         if (ID == 0) {
-            id = pedidoDAO.salvar(p);
+            idGerado = Integer.parseInt(pedidoDAO.salvar(p));
             logRegistro = "Registro salvo com sucesso! ID: " + idGerado;
         } else {
-            id = pedidoDAO.atualizar(p);
+            idGerado = Integer.parseInt(pedidoDAO.atualizar(p));
             logRegistro = "Registro atualizado com sucesso!";
         }
 
-        try {
-            idGerado = Integer.parseInt(id);
-        } catch (Exception e) {
-        }
-
         if (idGerado >= 0) {
-            tfdData.setText("");
-            tfdEndereco.setText("");
-            tfdObservacao.setText("");
-            tfdCliente.setText("");
+            ClearAllData();
+            GetAllData();
+            tblPedido.requestFocus();
 
-            JOptionPane.showMessageDialog(this, logRegistro);
+            JOptionPane.showMessageDialog(this, logRegistro);            
+        } else {
+            JOptionPane.showMessageDialog(this, "Problemas ao salvar registro! " + idGerado);
+        }
+    }
+    
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {
+        String idTabela = String.valueOf(tblPedido.getValueAt(tblPedido.getSelectedRow(), 0));
+
+        Pedido p = new PedidoDAO().consultarId(Integer.parseInt(idTabela));
+
+        ID = p.id;
+
+        if (p != null) {
+            jTabbedPane1.setSelectedIndex(1);
+
+            tfdData.setText(sdf.format(p.data));
+            tfdEndereco.setText(p.endereco_entrega);
+            tfdObservacao.setText(p.observacao);
+            tfdCliente.setText(String.valueOf(p.cliente_id));
 
             tfdData.requestFocus();
         } else {
-            JOptionPane.showMessageDialog(this, "Problemas ao salvar registro! " + id);
+            JOptionPane.showMessageDialog(this, "Id da cidade não encontrado!");
         }
-
-    }// GEN-LAST:event_btnSalvarActionPerformed
-
-    private void jButtonGetActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonGetActionPerformed
-        ArrayList<Pedido> f = new ArrayList();
-
-        f = new PedidoDAO().consultarTodos();
-
-        for (Pedido x : f) {
-            System.out.println("Id: " + x.id);
-            System.out.println("Data: " + x.data);
-            System.out.println("Endereço Entrega: " + x.endereco_entrega);
-            System.out.println("Observação: " + x.observacao);
-            System.out.println("Cliente ID: " + x.cliente_id);
-            System.out.println("");
-        }
-
-        DefaultTableModel modelo = (DefaultTableModel) tblPedido.getModel();
-        modelo.setRowCount(0);
-
-        for (Pedido x : f) {
-            modelo.addRow(new Object[] {
-                    x.id,
-                    x.data,
-                    x.endereco_entrega,
-                    x.observacao,
-                    x.cliente_id
-            });
-        }
-    }// GEN-LAST:event_jButtonGetActionPerformed
-
-    private void tfdDataActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_tfdDataActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_tfdDataActionPerformed
-
-    private void jComboFornecedorActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jComboFornecedorActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_jComboFornecedorActionPerformed
-
-    private void tfdBuscaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_tfdBuscaActionPerformed
-        // TODO add your handling code here:
-    }// GEN-LAST:event_tfdBuscaActionPerformed
-
-    private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonSearchActionPerformed
-        ArrayList<Pedido> p = new ArrayList();
-        String criterio = jComboFornecedor.getSelectedItem().toString();
-        String valor = tfdBusca.getText();
-
-        if (valor.isEmpty())
-            return;
-
-        p = new PedidoDAO().consultar(criterio, valor);
-
-        for (Pedido x : p) {
-            System.out.println("Id: " + x.id);
-            System.out.println("Data: " + x.data);
-            System.out.println("Endereço Entrega: " + x.endereco_entrega);
-            System.out.println("Observação: " + x.observacao);
-            System.out.println("Cliente ID: " + x.cliente_id);
-            System.out.println("");
-        }
-
-        DefaultTableModel modelo = (DefaultTableModel) tblPedido.getModel();
-        modelo.setRowCount(0);
-
-        for (Pedido x : p) {
-            modelo.addRow(new Object[] {
-                    x.id,
-                    x.data,
-                    x.endereco_entrega,
-                    x.observacao,
-                    x.cliente_id
-            });
-        }
+        ID = 0;
     }
-
-    private java.util.Date parseData(String valor) {
-        try {
-            return new SimpleDateFormat("yyyy-MM-dd").parse(valor);
-        } catch (Exception e) {
-            return null;
-        }
-    }// GEN-LAST:event_jButtonSearchActionPerformed
-
-    private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnDeletarActionPerformed
+    
+        private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {
         ArrayList<Pedido> p = new ArrayList();
         String idTabela = String.valueOf(tblPedido.getValueAt(tblPedido.getSelectedRow(), 0));
 
@@ -435,47 +384,73 @@ public class IfrPedido extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(this, "Problemas ao excluir registro!");
             }
 
-            p = new PedidoDAO().consultarTodos();
-
-            DefaultTableModel modelo = (DefaultTableModel) tblPedido.getModel();
-            modelo.setRowCount(0);
-
-            for (Pedido x : p) {
-                modelo.addRow(new Object[] {
-                        x.id,
-                        x.data,
-                        x.endereco_entrega,
-                        x.observacao,
-                        x.cliente_id
-                });
-            }
+            jTabbedPane1.setSelectedIndex(0);
+            ClearAllData();
+            GetAllData();
         } else {
             JOptionPane.showMessageDialog(this, "Problemas ao excluir registro!");
         }
-
         ID = 0;
-    }// GEN-LAST:event_btnDeletarActionPerformed
+    }
 
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnEditarActionPerformed
-        String idTabela = String.valueOf(tblPedido.getValueAt(tblPedido.getSelectedRow(), 0));
+    private void tfdDataActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_tfdDataActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_tfdDataActionPerformed
 
-        Pedido p = new PedidoDAO().consultarId(Integer.parseInt(idTabela));
+    private void jComboFornecedorActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jComboFornecedorActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_jComboFornecedorActionPerformed
 
-        ID = p.id;
+    private void tfdBuscaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_tfdBuscaActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_tfdBuscaActionPerformed
 
-        if (p != null) {
-            jTabbedPane1.setSelectedIndex(1);
-
-            tfdData.setText(sdf.format(p.data));
-            tfdEndereco.setText(p.endereco_entrega);
-            tfdObservacao.setText(p.observacao);
-            tfdCliente.setText(String.valueOf(p.cliente_id));
-
-            tfdData.requestFocus();
-        } else {
-            JOptionPane.showMessageDialog(this, "Id da cidade não encontrado!");
+    private java.util.Date parseData(String valor) {
+        try {
+            return new SimpleDateFormat("dd-MM-yyyy").parse(valor);
+        } catch (Exception e) {
+            return null;
         }
-    }// GEN-LAST:event_btnEditarActionPerformed
+    }
+
+    private void GetAllData(){
+        ArrayList<Pedido> p = new ArrayList();
+
+        p = new PedidoDAO().consultarTodos();
+
+        ExibitData(p);
+    }
+    
+    private void ClearAllData(){
+        tfdData.setText("");
+        tfdEndereco.setText("");
+        tfdObservacao.setText("");
+        tfdCliente.setText("");
+    }
+    
+    private void ExibitData(ArrayList<Pedido> p){
+        for (Pedido x : p) {
+            System.out.println("Id: " + x.id);
+            System.out.println("Data: " + x.data);
+            System.out.println("Endereço Entrega: " + x.endereco_entrega);
+            System.out.println("Observação: " + x.observacao);
+            System.out.println("Cliente ID: " + x.cliente_id);
+            System.out.println("");
+        }
+        
+        DefaultTableModel modelo = (DefaultTableModel) tblPedido.getModel();
+        modelo.setRowCount(0);
+
+        for (Pedido x : p) {
+            modelo.addRow(new Object[] {
+                x.id,
+                x.data,
+                x.endereco_entrega,
+                x.observacao,
+                x.cliente_id
+            });
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDeletar;

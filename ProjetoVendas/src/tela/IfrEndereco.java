@@ -18,6 +18,7 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
 
     public IfrEndereco() {
         initComponents();
+        GetAllData();
     }
 
     @SuppressWarnings("unchecked")
@@ -244,7 +245,86 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnDeletarActionPerformed
+    private void jButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {
+        this.dispose();
+    }
+    
+    private void jButtonGetActionPerformed(java.awt.event.ActionEvent evt) {
+        GetAllData();
+    }
+    
+    private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {
+        ArrayList<Endereco> e = new ArrayList<>();
+        String criterio = jComboEndereco.getSelectedItem().toString();
+        String valor = tfdBusca.getText();
+
+        if (valor.isEmpty()) {
+            return;
+        }
+
+        e = new EnderecoDAO().consultar(criterio, valor);
+
+        ExibitData(e);
+    }
+    
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {
+
+        if (tfdDescricao.getText().isEmpty()
+                || tfdCep.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Não foi possível inserir os dados.");
+            tfdDescricao.requestFocus();
+            return;
+        }
+
+        Endereco e = new Endereco(
+                ID,
+                tfdDescricao.getText(),
+                tfdCep.getText());
+
+        EnderecoDAO enderecoDAO = new EnderecoDAO();
+
+        int idGerado = -1;
+        String logRegistro = null;
+
+        if (ID == 0) {
+            idGerado = Integer.parseInt(enderecoDAO.salvar(e));
+            logRegistro = "Registro salvo com sucesso! ID: " + idGerado;
+        } else {
+            idGerado = Integer.parseInt(enderecoDAO.atualizar(e));
+            logRegistro = "Registro atualizado com sucesso!";
+        }
+
+        if (idGerado >= 0) {
+            ClearAllData();
+            GetAllData();
+            jTabbedPane1.setSelectedIndex(0);
+
+            JOptionPane.showMessageDialog(this, logRegistro);
+        } else {
+            JOptionPane.showMessageDialog(this, "Problemas ao salvar registro! " + idGerado);
+        }
+    }
+    
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {
+        String idTabela = String.valueOf(tblEndereco.getValueAt(tblEndereco.getSelectedRow(), 0));
+
+        Endereco e = new EnderecoDAO().consultarId(Integer.parseInt(idTabela));
+
+        ID = e.id;
+
+        if (e != null) {
+            jTabbedPane1.setSelectedIndex(1);
+
+            tfdDescricao.setText(e.descricao);
+            tfdCep.setText(e.cep);
+
+            tfdDescricao.requestFocus();
+        } else {
+            JOptionPane.showMessageDialog(this, "Id da cidade não encontrado!");
+        }
+    }
+    
+    private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {
         ArrayList<Endereco> e = new ArrayList();
         String idTabela = String.valueOf(tblEndereco.getValueAt(tblEndereco.getSelectedRow(), 0));
 
@@ -264,139 +344,55 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Problemas ao excluir registro!");
             }
-
-            e = new EnderecoDAO().consultarTodos();
-
-            DefaultTableModel modelo = (DefaultTableModel) tblEndereco.getModel();
-            modelo.setRowCount(0);
-
-            for (Endereco x : e) {
-                modelo.addRow(new Object[] {
-                        x.id,
-                        x.descricao,
-                        x.cep
-                });
-            }
+            
+            ClearAllData();
+            GetAllData();
+            jTabbedPane1.setSelectedIndex(0);
         } else {
             JOptionPane.showMessageDialog(this, "Problemas ao excluir registro!");
         }
-
         ID = 0;
-    }// GEN-LAST:event_btnDeletarActionPerformed
+    }
 
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnEditarActionPerformed
-        String idTabela = String.valueOf(tblEndereco.getValueAt(tblEndereco.getSelectedRow(), 0));
-
-        Endereco e = new EnderecoDAO().consultarId(Integer.parseInt(idTabela));
-
-        ID = e.id;
-
-        if (e != null) {
-            jTabbedPane1.setSelectedIndex(1);
-
-            tfdDescricao.setText(e.descricao);
-            tfdCep.setText(e.cep);
-
-            tfdDescricao.requestFocus();
-        } else {
-            JOptionPane.showMessageDialog(this, "Id da cidade não encontrado!");
-        }
-    }// GEN-LAST:event_btnEditarActionPerformed
-
-    private void jButtonCloseActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonCloseActionPerformed
-        this.dispose();
-    }// GEN-LAST:event_jButtonCloseActionPerformed
-
-    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnSalvarActionPerformed
-
-        if (tfdDescricao.getText().isEmpty()
-                || tfdCep.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Não foi possível inserir os dados.");
-            tfdDescricao.requestFocus();
-            return;
-        }
-
-        Endereco e = new Endereco(
-                ID,
-                tfdDescricao.getText(),
-                tfdCep.getText());
-
-        EnderecoDAO enderecoDAO = new EnderecoDAO();
-
-        int idGerado = -1;
-        String id = null;
-        String logRegistro = null;
-
-        if (ID == 0) {
-            enderecoDAO.salvar(e);
-            logRegistro = "Registro salvo com sucesso! ID: " + idGerado;
-        } else {
-            enderecoDAO.atualizar(e);
-            logRegistro = "Registro atualizado com sucesso!";
-        }
-
-        try {
-            idGerado = Integer.parseInt(id);
-        } catch (Exception ex) {
-            idGerado = -1;
-        }
-
-        if (idGerado >= 0) {
-            tfdDescricao.setText("");
-            tfdCep.setText("");
-
-            JOptionPane.showMessageDialog(this, logRegistro);
-        } else {
-            JOptionPane.showMessageDialog(this, "Problemas ao salvar registro!");
-        }
-    }// GEN-LAST:event_btnSalvarActionPerformed
-
-    private void jButtonGetActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonGetActionPerformed
-        ArrayList<Endereco> e = new ArrayList<>();
-
-        e = new EnderecoDAO().consultarTodos();
-
-        DefaultTableModel modelo = (DefaultTableModel) tblEndereco.getModel();
-        modelo.setRowCount(0);
-
-        for (Endereco x : e) {
-            modelo.addRow(new Object[] {
-                    x.id,
-                    x.descricao,
-                    x.cep
-            });
-        }
-    }// GEN-LAST:event_jButtonGetActionPerformed
-
-    private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonSearchActionPerformed
-        ArrayList<Endereco> e = new ArrayList<>();
-        String criterio = jComboEndereco.getSelectedItem().toString();
-        String valor = tfdBusca.getText();
-
-        if (valor.isEmpty()) {
-            return;
-        }
-
-        e = new EnderecoDAO().consultar(criterio, valor);
-
-        DefaultTableModel modelo = (DefaultTableModel) tblEndereco.getModel();
-        modelo.setRowCount(0);
-
-        for (Endereco x : e) {
-            modelo.addRow(new Object[] {
-                    x.id,
-                    x.descricao,
-                    x.cep
-            });
-        }
-    }// GEN-LAST:event_jButtonSearchActionPerformed
-
-    private void tfdDescricaoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_tfdDescricaoActionPerformed
+    private void tfdDescricaoActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-    }// GEN-LAST:event_tfdDescricaoActionPerformed
+    }
 
     private void tfdBuscaActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+    }
+    
+    private void GetAllData(){
+        ArrayList<Endereco> p = new ArrayList();
+
+        p = new EnderecoDAO().consultarTodos();
+
+        ExibitData(p);
+    }
+    
+    private void ClearAllData(){
+        tfdDescricao.setText("");
+        tfdCep.setText("");
+    }
+    
+    private void ExibitData(ArrayList<Endereco> e){
+        for (Endereco x : e) {
+            System.out.println("Id: " + x.id);
+            System.out.println("Descricao: " + x.descricao);
+            System.out.println("CEP: " + x.cep);
+            System.out.println("");
+        }
+        
+        DefaultTableModel modelo = (DefaultTableModel) tblEndereco.getModel();
+        modelo.setRowCount(0);
+
+        for (Endereco x : e) {
+            modelo.addRow(new Object[] {
+                    x.id,
+                    x.descricao,
+                    x.cep
+            });
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
