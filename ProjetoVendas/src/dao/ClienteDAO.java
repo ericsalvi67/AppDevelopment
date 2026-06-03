@@ -126,15 +126,15 @@ public class ClienteDAO implements IDAOT<Cliente> {
     @Override
     public ArrayList<Cliente> consultar(String criterio, String valor) {
         ArrayList<Cliente> clientes = new ArrayList<>();
-        String sql = sql =_select + " where " + criterio + " ilike '%" + valor + "%';";
-        
-        if(criterio == "ID"){
+        String sql = sql = _select + " where " + criterio + " ilike '%" + valor + "%';";
+
+        if (criterio == "ID") {
             sql = _select + " where " + criterio + " = " + valor + ";";
         }
 
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
-            
+
             ResultSet rs = st.executeQuery(sql);
             System.out.println("SQL executado!");
 

@@ -12,14 +12,16 @@ import java.util.Date;
 
 public class PedidoDAO implements IDAOT<Pedido> {
 
-    private static final SimpleDateFormat FORMATO_DATA = new SimpleDateFormat("yyyy-MM-dd");
+    private static final SimpleDateFormat FORMATO_DATA = new SimpleDateFormat("dd/MM/yyyy");
 
-    public static final String _select = "select id, "
-            + "data, "
-            + "endereco_entrega, "
-            + "observacao, "
-            + "cliente_id "
-            + "from pedido ";
+    public static final String _select = "select p.id p_id, "
+            + "p.data, "
+            + "p.endereco_entrega, "
+            + "p.observacao, "
+            + "c.id c_id, "
+            + "c.nome "
+            + "from pedido as p "
+            + "inner join cliente as c on p.cliente_id = c.id";
 
     public static final String _insert = "insert into pedido "
             + "(data, endereco_entrega, observacao, cliente_id) "
@@ -110,15 +112,16 @@ public class PedidoDAO implements IDAOT<Pedido> {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            ResultSet rs = st.executeQuery(_select + " order by id");
+            ResultSet rs = st.executeQuery(_select + " order by p.id");
             System.out.println("SQL executado!");
 
             while (rs.next()) {
-                pedidos.add(new Pedido(rs.getInt("id"),
+                pedidos.add(new Pedido(rs.getInt("p_id"),
                         parseData(rs.getString("data")),
                         rs.getString("endereco_entrega"),
                         rs.getString("observacao"),
-                        rs.getInt("cliente_id")));
+                        rs.getInt("c_id"),
+                        rs.getString("nome")));
             }
 
         } catch (Exception e) {
@@ -131,10 +134,10 @@ public class PedidoDAO implements IDAOT<Pedido> {
     @Override
     public ArrayList<Pedido> consultar(String criterio, String valor) {
         ArrayList<Pedido> pedidos = new ArrayList<>();
-        String sql = _select + " where " + criterio + " ilike '%" + valor + "%';";
+        String sql = _select + " where p." + criterio + " ilike '%" + valor + "%';";
         
         if(criterio == "ID"){
-            sql = _select + " where " + criterio + " = " + valor + ";";
+            sql = _select + " where p." + criterio + " = " + valor + ";";
         }
         
         try {
@@ -144,11 +147,12 @@ public class PedidoDAO implements IDAOT<Pedido> {
             System.out.println("SQL executado!");
 
             while (rs.next()) {
-                pedidos.add(new Pedido(rs.getInt("id"),
+                pedidos.add(new Pedido(rs.getInt("p_id"),
                         parseData(rs.getString("data")),
                         rs.getString("endereco_entrega"),
                         rs.getString("observacao"),
-                        rs.getInt("cliente_id")));
+                        rs.getInt("c_id"),
+                        rs.getString("nome")));
             }
 
         } catch (Exception e) {
@@ -165,15 +169,16 @@ public class PedidoDAO implements IDAOT<Pedido> {
         try {
             Statement st = ConexaoBD.getInstance().getConnection().createStatement();
 
-            ResultSet rs = st.executeQuery(_select + " where id = " + id);
+            ResultSet rs = st.executeQuery(_select + " where p.id = " + id);
             System.out.println("SQL executado!");
 
             while (rs.next()) {
-                pedido = new Pedido(rs.getInt("id"),
+                pedido = new Pedido(rs.getInt("p_id"),
                         parseData(rs.getString("data")),
                         rs.getString("endereco_entrega"),
                         rs.getString("observacao"),
-                        rs.getInt("cliente_id"));
+                        rs.getInt("c_id"),
+                        rs.getString("nome"));
             }
 
         } catch (Exception e) {

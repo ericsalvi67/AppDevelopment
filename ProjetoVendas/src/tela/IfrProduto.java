@@ -20,6 +20,7 @@ public class IfrProduto extends javax.swing.JInternalFrame {
     public IfrProduto() {
         initComponents();
         GetAllData();
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -41,7 +42,6 @@ public class IfrProduto extends javax.swing.JInternalFrame {
         tfdValor = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         tfdQuantidade = new javax.swing.JTextField();
-        jButtonGet = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jComboFornecedor = new javax.swing.JComboBox<>();
         tfdBusca = new javax.swing.JTextField();
@@ -170,13 +170,6 @@ public class IfrProduto extends javax.swing.JInternalFrame {
 
         jTabbedPane1.addTab("Inserção", jPanel2);
 
-        jButtonGet.setText("Consultar");
-        jButtonGet.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonGetActionPerformed(evt);
-            }
-        });
-
         jLabel3.setText("Buscar");
 
         jComboFornecedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "Descricao" }));
@@ -222,8 +215,7 @@ public class IfrProduto extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButtonGet)
-                        .addGap(419, 419, 419)
+                        .addGap(500, 500, 500)
                         .addComponent(btnDeletar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEditar)
@@ -262,8 +254,7 @@ public class IfrProduto extends javax.swing.JInternalFrame {
                         .addComponent(btnDeletar))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButtonClose)
-                        .addComponent(btnSalvar)
-                        .addComponent(jButtonGet)))
+                        .addComponent(btnSalvar)))
                 .addGap(19, 19, 19))
         );
 
@@ -274,21 +265,17 @@ public class IfrProduto extends javax.swing.JInternalFrame {
         this.dispose();
     }
     
-    private void jButtonGetActionPerformed(java.awt.event.ActionEvent evt) {
-        GetAllData();
-    }
-    
     private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {
         ArrayList<Produto> p = new ArrayList();
         String criterio = jComboFornecedor.getSelectedItem().toString();
         String valor = tfdBusca.getText();
 
         if (valor.isEmpty())
-            return;
-
-        p = new ProdutoDAO().consultar(criterio, valor);
-
-        ExibitData(p);
+            GetAllData();
+        else{
+            p = new ProdutoDAO().consultar(criterio, valor);
+            ExibitData(p);
+        }    
     }
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {
@@ -327,8 +314,6 @@ public class IfrProduto extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Problemas ao salvar registro! " + idGerado);
         }
-
-        ID = 0;
     }
     
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {
@@ -438,7 +423,6 @@ public class IfrProduto extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton jButtonClose;
-    private javax.swing.JButton jButtonGet;
     private javax.swing.JButton jButtonSearch;
     private javax.swing.JComboBox<String> jComboFornecedor;
     private javax.swing.JLabel jLabel1;

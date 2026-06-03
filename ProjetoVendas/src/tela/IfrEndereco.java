@@ -5,6 +5,8 @@
  */
 package tela;
 
+import apoio.CombosDAO;
+import apoio.Formatacao;
 import dao.EnderecoDAO;
 import entidade.Endereco;
 import java.awt.event.ActionEvent;
@@ -19,6 +21,8 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
     public IfrEndereco() {
         initComponents();
         GetAllData();
+        
+        Formatacao.formatarCep(tfdCep);
     }
 
     @SuppressWarnings("unchecked")
@@ -38,8 +42,9 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         tfdDescricao = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        tfdCep = new javax.swing.JTextField();
-        jButtonGet = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        cmbCliente = new javax.swing.JComboBox<>();
+        tfdCep = new javax.swing.JFormattedTextField();
         jLabel3 = new javax.swing.JLabel();
         jComboEndereco = new javax.swing.JComboBox();
         tfdBusca = new javax.swing.JTextField();
@@ -68,14 +73,14 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "ID", "Descricao", "CEP"
+                "ID", "Descricao", "CEP", "Cliente"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, true
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -117,6 +122,8 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
 
         jLabel2.setText("CEP");
 
+        jLabel4.setText("Cliente");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -125,13 +132,17 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
                 .addGap(15, 15, 15)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(tfdCep, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfdDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(tfdDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cmbCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tfdCep))))
                 .addContainerGap(280, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -145,17 +156,14 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(tfdCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(258, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(cmbCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(224, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Inserção", jPanel2);
-
-        jButtonGet.setText("Consultar");
-        jButtonGet.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonGetActionPerformed(evt);
-            }
-        });
 
         jLabel3.setText("Buscar");
 
@@ -197,8 +205,7 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButtonGet)
-                        .addGap(419, 419, 419)
+                        .addGap(500, 500, 500)
                         .addComponent(btnDeletar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEditar)
@@ -237,8 +244,7 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
                         .addComponent(btnDeletar))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButtonClose)
-                        .addComponent(btnSalvar)
-                        .addComponent(jButtonGet)))
+                        .addComponent(btnSalvar)))
                 .addGap(19, 19, 19))
         );
 
@@ -249,22 +255,18 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
         this.dispose();
     }
     
-    private void jButtonGetActionPerformed(java.awt.event.ActionEvent evt) {
-        GetAllData();
-    }
-    
     private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {
         ArrayList<Endereco> e = new ArrayList<>();
         String criterio = jComboEndereco.getSelectedItem().toString();
         String valor = tfdBusca.getText();
 
         if (valor.isEmpty()) {
-            return;
+            GetAllData();
         }
-
-        e = new EnderecoDAO().consultar(criterio, valor);
-
-        ExibitData(e);
+        else {
+            e = new EnderecoDAO().consultar(criterio, valor);
+            ExibitData(e);
+        }
     }
     
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {
@@ -303,6 +305,7 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Problemas ao salvar registro! " + idGerado);
         }
+        ID = 0;
     }
     
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {
@@ -399,20 +402,21 @@ public class IfrEndereco extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnDeletar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.JComboBox<String> cmbCliente;
     private javax.swing.JButton jButtonClose;
-    private javax.swing.JButton jButtonGet;
     private javax.swing.JButton jButtonSearch;
     private javax.swing.JComboBox jComboEndereco;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable tblEndereco;
     private javax.swing.JTextField tfdBusca;
-    private javax.swing.JTextField tfdCep;
+    private javax.swing.JFormattedTextField tfdCep;
     private javax.swing.JTextField tfdDescricao;
     // End of variables declaration//GEN-END:variables
 }
