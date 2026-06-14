@@ -4,6 +4,7 @@ import apoio.ConexaoBD;
 import apoio.TablesInsertionDB;
 import java.sql.*;
 import javax.swing.JOptionPane;
+import tela.DlgLogin;
 import tela.FrmPrincipal;
 
 /**
@@ -21,8 +22,9 @@ public class ProjetoVendas {
         try {
             // com classe ConexaoBD.java
             if (ConexaoBD.getInstance().getConnection() != null) {
-                new FrmPrincipal().setVisible(true);
                 create.CreateTables();
+                
+                new DlgLogin(null, true).setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(null, "Erro ao conectar no Banco de Dados!");
             }

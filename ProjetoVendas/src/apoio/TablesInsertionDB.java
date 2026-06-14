@@ -7,6 +7,15 @@ import apoio.ConexaoBD;
 public class TablesInsertionDB {
 
         static Connection conexao = null;
+        
+        private static final String _createUsuario = "CREATE TABLE IF NOT EXISTS usuario (" +
+                        "	id serial4 NOT NULL," +
+                        "	email varchar(45) NOT NULL," +
+                        "	senha varchar(255) NOT NULL," +
+                        "	situacao varchar(1) NULL," +
+                        "	last_modification timestamp NOT NULL DEFAULT NOW()," +
+                        "	CONSTRAINT usuario_pk PRIMARY KEY (id)," +
+                        "	CONSTRAINT usuario_email_un UNIQUE (email));";
 
         private static final String _createCliente = "CREATE TABLE IF NOT EXISTS cliente (" +
                         "	id serial4 NOT NULL," +
@@ -97,7 +106,8 @@ public class TablesInsertionDB {
         public static boolean CreateTables() throws Exception {
                 try {
                         Statement st = ConexaoBD.getInstance().getConnection().createStatement();
-
+                        
+                        st.executeUpdate(_createUsuario);
                         st.executeUpdate(_createCliente);
                         st.executeUpdate(_createEndereco);
                         st.executeUpdate(_createFornecedor);
