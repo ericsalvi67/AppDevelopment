@@ -5,7 +5,6 @@ import apoio.TablesInsertionDB;
 import java.sql.*;
 import javax.swing.JOptionPane;
 import tela.DlgLogin;
-import tela.FrmPrincipal;
 
 /**
  *
