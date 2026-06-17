@@ -12,5 +12,3 @@ public class Cliente_endereco {
         this.endereco_id = endereco_id;
     }
 }
-
-
