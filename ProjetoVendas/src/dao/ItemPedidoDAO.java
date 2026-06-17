@@ -17,9 +17,7 @@ public class ItemPedidoDAO implements IDAOT<Item_pedido> {
             + "ip.pedido_id, "
             + "ip.qtde, "
             + "ip.valor_item, "
-            + "p.descricao produto_descricao, "
-            + "p.valor_unitario, "
-            + "pe.data pedido_data "
+            + "p.descricao, "
             + "from item_pedido ip "
             + "inner join produto p "
             + "on p.id = ip.produto_id "
@@ -40,7 +38,7 @@ public class ItemPedidoDAO implements IDAOT<Item_pedido> {
             + "where id = ?";
 
     public static final String _delete = "delete from item_pedido "
-            + "where id = ?";
+            + "where pedido_id = ?";
 
     @Override
     public String salvar(Item_pedido o) {
@@ -156,7 +154,8 @@ public class ItemPedidoDAO implements IDAOT<Item_pedido> {
                         rs.getInt("produto_id"),
                         rs.getInt("pedido_id"),
                         rs.getDouble("qtde"),
-                        rs.getFloat("valor_item")));
+                        rs.getFloat("valor_item")
+                    ));
             }
 
         } catch (Exception e) {
@@ -212,7 +211,9 @@ public class ItemPedidoDAO implements IDAOT<Item_pedido> {
                                 rs.getInt("produto_id"),
                                 rs.getInt("pedido_id"),
                                 rs.getDouble("qtde"),
-                                rs.getFloat("valor_item")));
+                                rs.getFloat("valor_item"),
+                                rs.getString("descricao")
+                        ));
             }
 
         } catch (Exception e) {

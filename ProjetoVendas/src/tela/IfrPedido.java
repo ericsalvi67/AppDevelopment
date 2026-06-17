@@ -611,10 +611,13 @@ public class IfrPedido extends javax.swing.JInternalFrame {
         String idTabela = String.valueOf(tblPedido.getValueAt(tblPedido.getSelectedRow(), 0));
 
         Pedido p = new PedidoDAO().consultarId(Integer.parseInt(idTabela));
-
+        ArrayList<Item_pedido> i = null;
         ID = p.id;
 
         if (p != null) {
+            i = new ItemPedidoDAO().consultarPorPedido(ID);
+            ExibitPedData(i);
+            
             jTabbedPane1.setSelectedIndex(1);
 
             tfdData.setText(sdf.format(p.data));
@@ -646,6 +649,7 @@ public class IfrPedido extends javax.swing.JInternalFrame {
 
             try {
                 new PedidoDAO().excluir(ID);
+                new ItemPedidoDAO().excluir(ID);
                 JOptionPane.showMessageDialog(this, "Registro excluído com sucesso!");
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Problemas ao excluir registro!");
@@ -715,6 +719,19 @@ public class IfrPedido extends javax.swing.JInternalFrame {
                     x.endereco_entrega,
                     x.observacao,
                     x.cliente_nome
+            });
+        }
+    }
+    private void ExibitPedData(ArrayList<Item_pedido> i){
+        DefaultTableModel modelo = (DefaultTableModel) tblPedido.getModel();
+        modelo.setRowCount(0);
+        
+        for (Item_pedido x : i) {
+            modelo.addRow(new Object[] {
+                    x.id,
+                    x.descricao,
+                    x.valor_item,
+                    x.qtde
             });
         }
     }
