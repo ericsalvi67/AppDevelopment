@@ -8,7 +8,7 @@ public class Item_pedido {
     public float valor_item;
     public String descricao;
 
-    public Item_pedido(int id, int produto_id, int pedido_id, double qtde, float valor_item) {
+    public Item_pedido(int id, int pedido_id, int produto_id, double qtde, float valor_item) {
         this.id = id;
         this.produto_id = produto_id;
         this.pedido_id = pedido_id;

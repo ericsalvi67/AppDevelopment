@@ -697,6 +697,11 @@ public class IfrPedido extends javax.swing.JInternalFrame {
         tfdEndereco.setText("");
         tfdObservacao.setText("");
         cmbCliente.setSelectedIndex(0);
+        
+        
+        for(int x = 0; tblPed.getRowCount() >= 0; x--){
+            tblPed.remove(x);
+        }
     }
 
     private void ExibitData(ArrayList<Pedido> p) {
@@ -723,7 +728,7 @@ public class IfrPedido extends javax.swing.JInternalFrame {
         }
     }
     private void ExibitPedData(ArrayList<Item_pedido> i){
-        DefaultTableModel modelo = (DefaultTableModel) tblPedido.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) tblPed.getModel();
         modelo.setRowCount(0);
         
         for (Item_pedido x : i) {

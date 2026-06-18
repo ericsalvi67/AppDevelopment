@@ -17,7 +17,7 @@ public class ItemPedidoDAO implements IDAOT<Item_pedido> {
             + "ip.pedido_id, "
             + "ip.qtde, "
             + "ip.valor_item, "
-            + "p.descricao, "
+            + "p.descricao "
             + "from item_pedido ip "
             + "inner join produto p "
             + "on p.id = ip.produto_id "

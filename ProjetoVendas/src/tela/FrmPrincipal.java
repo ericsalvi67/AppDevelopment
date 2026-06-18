@@ -209,7 +209,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void jMenuRelClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuRelClienteActionPerformed
         try {
             // Compila o relatorio
-            JasperReport relatorio = JasperCompileManager.compileReport(getClass().getResourceAsStream("/relatorios/list_cliente.jrxml"));
+            JasperReport relatorio = JasperCompileManager.compileReport(getClass().getResourceAsStream("/relatorios/listar_clientes.jrxml"));
 
             // Mapeia campos de parametros para o relatorio, mesmo que nao existam
             Map parametros = new HashMap();
