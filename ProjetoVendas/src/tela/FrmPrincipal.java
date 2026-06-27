@@ -51,9 +51,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuItemPedido = new javax.swing.JMenuItem();
         jMenuItemCompra = new javax.swing.JMenuItem();
-        jMenuRel = new javax.swing.JMenu();
-        jMenuRelCliente = new javax.swing.JMenuItem();
-        jMenuRelPedidos = new javax.swing.JMenuItem();
+        jMenuRel2 = new javax.swing.JMenu();
+        jMenuRelatorios1 = new javax.swing.JMenuItem();
         jMenuAjuda = new javax.swing.JMenu();
         jMenuItemSair = new javax.swing.JMenuItem();
 
@@ -136,25 +135,17 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
-        jMenuRel.setText("Relatórios");
+        jMenuRel2.setText("Relatórios");
 
-        jMenuRelCliente.setText("Clientes");
-        jMenuRelCliente.addActionListener(new java.awt.event.ActionListener() {
+        jMenuRelatorios1.setText("Relatórios");
+        jMenuRelatorios1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuRelClienteActionPerformed(evt);
+                jMenuRelatorios1ActionPerformed(evt);
             }
         });
-        jMenuRel.add(jMenuRelCliente);
+        jMenuRel2.add(jMenuRelatorios1);
 
-        jMenuRelPedidos.setText("Pedidos");
-        jMenuRelPedidos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuRelPedidosActionPerformed(evt);
-            }
-        });
-        jMenuRel.add(jMenuRelPedidos);
-
-        jMenuBar1.add(jMenuRel);
+        jMenuBar1.add(jMenuRel2);
 
         jMenuAjuda.setText("Ajuda");
 
@@ -206,27 +197,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItemCompraActionPerformed
 
-    private void jMenuRelClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuRelClienteActionPerformed
-        try {
-            // Compila o relatorio
-            JasperReport relatorio = JasperCompileManager.compileReport(getClass().getResourceAsStream("/relatorios/listar_clientes.jrxml"));
-
-            // Mapeia campos de parametros para o relatorio, mesmo que nao existam
-            Map parametros = new HashMap();
-
-            // Executa relatoio
-            JasperPrint impressao = JasperFillManager.fillReport(relatorio, parametros, ConexaoBD.getInstance().getConnection());
-
-            // Exibe resultado em video
-            JasperViewer.viewReport(impressao, false);
-        } catch (JRException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório: " + e);
-        }
-    }//GEN-LAST:event_jMenuRelClienteActionPerformed
-
-    private void jMenuRelPedidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuRelPedidosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuRelPedidosActionPerformed
+    private void jMenuRelatorios1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuRelatorios1ActionPerformed
+        DlgTimeStamp dlgTS = new DlgTimeStamp(this, true);
+        dlgTS.setVisible(true);
+    }//GEN-LAST:event_jMenuRelatorios1ActionPerformed
 
     private void jMenuItemSairActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jMenuItemSairActionPerformed
         System.exit(0);
@@ -324,8 +298,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemPedido;
     private javax.swing.JMenuItem jMenuItemProduto;
     private javax.swing.JMenuItem jMenuItemSair;
-    private javax.swing.JMenu jMenuRel;
-    private javax.swing.JMenuItem jMenuRelCliente;
-    private javax.swing.JMenuItem jMenuRelPedidos;
+    private javax.swing.JMenu jMenuRel2;
+    private javax.swing.JMenuItem jMenuRelatorios1;
     // End of variables declaration//GEN-END:variables
 }

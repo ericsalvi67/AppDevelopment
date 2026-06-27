@@ -28,7 +28,9 @@ public class IfrCliente extends javax.swing.JInternalFrame {
     public IfrCliente() {
         initComponents();
         GetAllData();
-
+        
+        Formatacao.formatarCpf(tfdCpf);
+        Formatacao.formatarTelefone(tfdTelefone);
         new CombosDAO().popularCombo("endereco", cmbEndereco);
     }
 
@@ -351,9 +353,10 @@ public class IfrCliente extends javax.swing.JInternalFrame {
         Cliente c = new Cliente(
                 ID,
                 tfdNome.getText(),
-                tfdEmail.getText(),
-                tfdTelefone.getText(),
-                tfdCpf.getText());
+                tfdEmail.getText(),        
+                tfdCpf.getText(),
+                tfdTelefone.getText()
+        );
 
         ClienteDAO clienteDAO = new ClienteDAO();
         ClienteEnderecoDAO ceDAO = new ClienteEnderecoDAO();
@@ -410,8 +413,8 @@ public class IfrCliente extends javax.swing.JInternalFrame {
 
             tfdNome.setText(c.nome);
             tfdEmail.setText(c.email);
-            tfdTelefone.setText(c.telefone);
             tfdCpf.setText(c.cpf);
+            tfdTelefone.setText(c.telefone);
 
             if (ce != null) {
                 ComboItem item = new ComboItem();
@@ -517,8 +520,8 @@ public class IfrCliente extends javax.swing.JInternalFrame {
                     x.id,
                     x.nome,
                     x.email,
-                    x.telefone,
                     x.cpf,
+                    x.telefone,
                     x.endereco
             });
         }
